@@ -1,3 +1,8 @@
+<script>
+  import WeatherStore from "../../stores/weather-store.js";
+  $: console.log($WeatherStore[0]);
+</script>
+
 <style>
   div {
     color: rgb(56, 56, 56);

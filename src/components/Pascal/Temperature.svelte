@@ -1,8 +1,12 @@
+<script>
+  export let temp = "00";
+</script>
+
 <style>
   h1 {
-    font-size: 8rem;
+    font-size: 8.4rem;
     font-family: "MuseoModerno", cursive;
   }
 </style>
 
-<h1 class="text-white mr-4">08°</h1>
+<h1 class="text-white mr-4">{temp}°</h1>

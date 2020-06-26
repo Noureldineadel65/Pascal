@@ -11,25 +11,21 @@
   import { onMount } from "svelte";
   const city = "cairo";
   let list = [];
+  let currentWeather = {};
   onMount(() => {
     axios
       .get(
-        `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=dd91a9e6a83c49a6f37752ea71c27844
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=dd91a9e6a83c49a6f37752ea71c27844
     `
       )
       .then(response => {
-        list = response.data.list.map(e => {
-          return extractWeatherInformation(e);
-        });
-      })
-      .then(() => {
-        WeatherStore.setWeatherData(list);
+        console.log(extractWeatherInformation(response.data));
+        currentWeather = extractWeatherInformation(response.data);
       })
       .catch(err => {
         console.log(err);
       });
   });
-  $: console.log($WeatherStore);
 </script>
 
 <style>
@@ -38,8 +34,8 @@
     width: 100%;
     background: linear-gradient(
         to bottom,
-        rgba(56, 167, 231, 1),
-        rgb(56, 167, 231, 0.3)
+        rgba(0, 0, 0, 0.719),
+        rgba(0, 0, 0, 0.3)
       ),
       url(https://cdn.welcometothejungle.co/uploads/article/image/0055/155870/Amsterdam-2.jpg);
     background-repeat: no-repeat;
@@ -60,8 +56,11 @@
   <div class="container">
     <Header />
     <div class="flex items-center justify-between w-10/12 mx-auto">
-      <Temperature />
-      <WeatherDetails />
+      <Temperature temp={currentWeather.temp} />
+      <WeatherDetails
+        main={currentWeather.main}
+        windSpeed={currentWeather.wind_speed}
+        humidity={currentWeather.humidity} />
     </div>
   </div>
   <WeatherDisplay />

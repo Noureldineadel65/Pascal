@@ -18,12 +18,13 @@ export function organizeWeatherData(organizedData) {
 }
 export function extractWeatherInformation(data) {
 	const { main, description, icon } = data.weather[0];
-	const { temp, pressure, humidity } = data.main;
+	const { temp, pressure, humidity, feels_like } = data.main;
 	const wind_speed = data.wind.speed;
 	const time = moment(data.dt_txt).format("h:mm A");
 	const day = moment(data.dt_txt).format("dddd");
 	return {
 		main,
+		feels_like,
 		description,
 		icon,
 		temp,

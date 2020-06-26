@@ -1,3 +1,10 @@
+<script>
+  export let main = "";
+  export let windSpeed = "";
+  export let humidity = "";
+  $: console.log(main, windSpeed, humidity);
+</script>
+
 <style>
   i {
     color: #fff !important;
@@ -23,19 +30,19 @@
   <ul c lass="details-list">
     <li class="mb-4">
       <i class="owf owf-200 owf-4x mr-3" />
-      <span>Partly Cloudy</span>
+      <span>{main}</span>
     </li>
     <li class="mb-4">
       <img src="images/wind.svg" class="mr-3" />
       <span>
-        <span class="number">13</span>
+        <span class="number">{windSpeed}</span>
         mph
       </span>
     </li>
     <li>
-      <img src="images/umbrella.svg" class="mr-3" />
+      <img src="images/humidity.svg" class="mr-3" />
       <span>
-        <span class="number">0%</span>
+        <span class="number">{humidity}%</span>
       </span>
     </li>
   </ul>
