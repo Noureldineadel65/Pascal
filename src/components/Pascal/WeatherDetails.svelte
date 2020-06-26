@@ -1,0 +1,42 @@
+<style>
+  i {
+    color: #fff !important;
+  }
+  li {
+    color: #fff;
+    display: flex;
+    align-items: center;
+  }
+  li span {
+    font-size: 1.2rem;
+  }
+  li img {
+    width: 2.3rem;
+  }
+  .number {
+    font-family: "MuseoModerno", cursive;
+    font-weight: bolder;
+  }
+</style>
+
+<div class="weather-details">
+  <ul c lass="details-list">
+    <li class="mb-4">
+      <i class="owf owf-200 owf-4x mr-3" />
+      <span>Partly Cloudy</span>
+    </li>
+    <li class="mb-4">
+      <img src="images/wind.svg" class="mr-3" />
+      <span>
+        <span class="number">13</span>
+        mph
+      </span>
+    </li>
+    <li>
+      <img src="images/umbrella.svg" class="mr-3" />
+      <span>
+        <span class="number">0%</span>
+      </span>
+    </li>
+  </ul>
+</div>
