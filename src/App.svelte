@@ -9,7 +9,7 @@
   import WeatherDisplay from "./components/Pascal/WeatherDisplay.svelte";
 
   import { onMount } from "svelte";
-  const city = "cairo";
+  const city = "toronto";
   let list = [];
   let currentWeather = {};
   onMount(() => {
@@ -19,12 +19,15 @@
     `
       )
       .then(response => {
-        console.log(extractWeatherInformation(response.data));
         currentWeather = extractWeatherInformation(response.data);
       })
       .catch(err => {
         console.log(err);
       });
+    // axios.get(`https://restcountries.eu/rest/v2/capital/${city}`).then(data => {
+    //   const { name, capital } = data.data[0];
+    //   countryDetail = { name, capital };
+    // });
   });
 </script>
 
@@ -32,12 +35,7 @@
   .app {
     height: 100vh;
     width: 100%;
-    background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.719),
-        rgba(0, 0, 0, 0.3)
-      ),
-      url(https://cdn.welcometothejungle.co/uploads/article/image/0055/155870/Amsterdam-2.jpg);
+
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -52,9 +50,16 @@
   </script>
   <title>Pascal | Weather App</title>
 </svelte:head>
-<div class="app">
+<div
+  class="app"
+  style={`background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.719),
+        rgba(0, 0, 0, 0.3)
+      ),
+      url(https://source.unsplash.com/1600x900/?${city});`}>
   <div class="container">
-    <Header />
+    <Header {city} country={currentWeather.country} />
     <div class="flex items-center justify-between w-10/12 mx-auto">
       <Temperature temp={currentWeather.temp} />
       <WeatherDetails

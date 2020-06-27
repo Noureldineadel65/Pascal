@@ -9,4 +9,4 @@
   }
 </style>
 
-<h1 class="text-white mr-4">{temp}°</h1>
+<h1 class="text-white mr-4">{Math.floor(temp)}°</h1>

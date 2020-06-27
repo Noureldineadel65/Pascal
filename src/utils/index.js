@@ -20,6 +20,7 @@ export function extractWeatherInformation(data) {
 	const { main, description, icon } = data.weather[0];
 	const { temp, pressure, humidity, feels_like } = data.main;
 	const wind_speed = data.wind.speed;
+	const country = data.sys.country;
 	const time = moment(data.dt_txt).format("h:mm A");
 	const day = moment(data.dt_txt).format("dddd");
 	return {
@@ -33,5 +34,6 @@ export function extractWeatherInformation(data) {
 		wind_speed,
 		time,
 		day,
+		country,
 	};
 }

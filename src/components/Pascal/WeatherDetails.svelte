@@ -2,7 +2,6 @@
   export let main = "";
   export let windSpeed = "";
   export let humidity = "";
-  $: console.log(main, windSpeed, humidity);
 </script>
 
 <style>
