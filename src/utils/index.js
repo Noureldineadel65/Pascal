@@ -17,7 +17,7 @@ export function organizeWeatherData(organizedData) {
 	});
 }
 export function extractWeatherInformation(data) {
-	const { main, description, icon } = data.weather[0];
+	const { main, description, icon, id } = data.weather[0];
 	const { temp, pressure, humidity, feels_like } = data.main;
 	const wind_speed = data.wind.speed;
 	const country = data.sys.country;
@@ -35,5 +35,9 @@ export function extractWeatherInformation(data) {
 		time,
 		day,
 		country,
+		id,
 	};
+}
+export function getHour(time) {
+	return time.split(":")[0];
 }

@@ -9,8 +9,7 @@
   import WeatherDisplay from "./components/Pascal/WeatherDisplay.svelte";
 
   import { onMount } from "svelte";
-  const city = "toronto";
-  let list = [];
+  let city = "toronto";
   let currentWeather = {};
   onMount(() => {
     axios
@@ -24,10 +23,6 @@
       .catch(err => {
         console.log(err);
       });
-    // axios.get(`https://restcountries.eu/rest/v2/capital/${city}`).then(data => {
-    //   const { name, capital } = data.data[0];
-    //   countryDetail = { name, capital };
-    // });
   });
 </script>
 
@@ -65,7 +60,8 @@
       <WeatherDetails
         main={currentWeather.main}
         windSpeed={currentWeather.wind_speed}
-        humidity={currentWeather.humidity} />
+        humidity={currentWeather.humidity}
+        icon={currentWeather.id} />
     </div>
   </div>
   <WeatherDisplay />

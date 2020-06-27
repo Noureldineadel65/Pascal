@@ -2,6 +2,7 @@
   export let main = "";
   export let windSpeed = "";
   export let humidity = "";
+  export let icon = "200";
 </script>
 
 <style>
@@ -28,7 +29,7 @@
 <div class="weather-details">
   <ul c lass="details-list">
     <li class="mb-4">
-      <i class="owf owf-200 owf-4x mr-3" />
+      <i class={`owf owf-${icon} owf-4x mr-3`} />
       <span>{main}</span>
     </li>
     <li class="mb-4">
