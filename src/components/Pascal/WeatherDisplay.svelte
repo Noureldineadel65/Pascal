@@ -1,24 +1,24 @@
 <script>
   import WeatherStore from "../../stores/weather-store.js";
   import axios from "axios";
+  import Carousel from "../UI/Carousel.svelte";
   import { extractWeatherInformation, getHour } from "../../utils";
   import { onMount } from "svelte";
   let list = [];
   let index = 0;
   $: list = $WeatherStore.length ? $WeatherStore[index] : [];
-  $: console.log(list);
   onMount(() => {
-    axios
-      .get(
-        "https://api.openweathermap.org/data/2.5/forecast?q=toronto&units=metric&appid=dd91a9e6a83c49a6f37752ea71c27844"
-      )
-      .then(response => {
-        WeatherStore.setWeatherData(
-          response.data.list.map(e => {
-            return extractWeatherInformation(e);
-          })
-        );
-      });
+    // axios
+    //   .get(
+    //     "https://api.openweathermap.org/data/2.5/forecast?q=toronto&units=metric&appid=dd91a9e6a83c49a6f37752ea71c27844"
+    //   )
+    //   .then(response => {
+    //     WeatherStore.setWeatherData(
+    //       response.data.list.map(e => {
+    //         return extractWeatherInformation(e);
+    //       })
+    //     );
+    //   });
   });
 </script>
 
@@ -27,7 +27,7 @@
     color: rgb(56, 56, 56);
   }
   .weather-display {
-    height: 14.5rem;
+    height: 16.5rem;
     position: absolute;
     bottom: 0;
   }
@@ -36,119 +36,241 @@
   span {
     font-family: "MuseoModerno", cursive;
   }
+  .weathers {
+    padding: 2rem 0;
+    position: relative;
+  }
 </style>
 
 <div class="weather-display bg-white py-8 w-full">
-  <div class="weathers flex items-center justify-between w-10/12 mx-auto">
-    {#each list.slice(0, 5) as weather}
-      <div class="weather flex flex-col items-center justify-center">
-        <div class="weather-day mb-3 text-xl">
-          <span class="font-bold">{weather.time.split(':')[0]}</span>
-          {weather.time
-            .split(':')[1]
-            .substring(
-              weather.time.split(':')[1].length - 2,
-              weather.time.split(':')[1].length
-            )}
-        </div>
-        <div class="weather-icon mb-2">
-          <i class="owf owf-{weather.id} owf-4x" />
-        </div>
-        <div class="temperatures text-lg flex items-center center">
-          <div class="actual mr-2 font-bold">
-            <span>{Math.floor(weather.temp)}°</span>
+  <div class="weathers">
+    <Carousel>
+      <!-- {#each list as weather}
+        <div
+          class="weather flex flex-col items-center justify-center no-select">
+          <div class="weather-day mb-3 text-xl">
+            <span class="font-bold">{weather.time.split(':')[0]}</span>
+            {weather.time
+              .split(':')[1]
+              .substring(
+                weather.time.split(':')[1].length - 2,
+                weather.time.split(':')[1].length
+              )}
           </div>
-          <div class="feels-link">
-            <span>{Math.floor(weather.feels_like)}°</span>
+          <div class="weather-icon mb-2">
+            <i class="owf owf-{weather.id} owf-4x" />
+          </div>
+          <div class="temperatures text-lg flex items-center center">
+            <div class="actual mr-2 font-bold">
+              <span>{Math.floor(weather.temp)}°</span>
+            </div>
+            <div class="feels-link">
+              <span>{Math.floor(weather.feels_like)}°</span>
+            </div>
+          </div>
+        </div>
+      {/each} -->
+      <div
+        class="weather flex flex-col items-center justify-center no-select
+        svelte-1kbnel3">
+        <div class="weather-day mb-3 text-xl svelte-1kbnel3">
+          <span class="font-bold svelte-1kbnel3">1</span>
+          AM
+        </div>
+        <div class="weather-icon mb-2 svelte-1kbnel3">
+          <i class="owf owf-500 owf-4x svelte-1kbnel3" />
+        </div>
+        <div
+          class="temperatures text-lg flex items-center center svelte-1kbnel3">
+          <div class="actual mr-2 font-bold svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
+          </div>
+          <div class="feels-link svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
           </div>
         </div>
       </div>
-    {/each}
-    <!-- <div class="weather flex flex-col items-center justify-center">
-      <div class="weather-day mb-3 text-xl">
-        <span class="font-bold">3</span>
-        PM
-      </div>
-      <div class="weather-icon mb-2">
-        <i class="owf owf-500 owf-4x" />
-      </div>
-      <div class="temperatures text-lg flex items-center center">
-        <div class="actual mr-2 font-bold">
-          <span>6°</span>
+      <div
+        class="weather flex flex-col items-center justify-center no-select
+        svelte-1kbnel3">
+        <div class="weather-day mb-3 text-xl svelte-1kbnel3">
+          <span class="font-bold svelte-1kbnel3">2</span>
+          AM
         </div>
-        <div class="feels-link">
-          <span>1°</span>
+        <div class="weather-icon mb-2 svelte-1kbnel3">
+          <i class="owf owf-500 owf-4x svelte-1kbnel3" />
         </div>
-      </div>
-    </div>
-    <div class="weather flex flex-col items-center justify-center">
-      <div class="weather-day mb-3 text-xl">
-        <span class="font-bold">4</span>
-        PM
-      </div>
-      <div class="weather-icon mb-2">
-        <i class="owf owf-500 owf-4x" />
-      </div>
-      <div class="temperatures text-lg flex items-center center">
-        <div class="actual mr-2 font-bold">
-          <span>4°</span>
-        </div>
-        <div class="feels-link">
-          <span>-1°</span>
+        <div
+          class="temperatures text-lg flex items-center center svelte-1kbnel3">
+          <div class="actual mr-2 font-bold svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
+          </div>
+          <div class="feels-link svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="weather flex flex-col items-center justify-center">
-      <div class="weather-day mb-3 text-xl">
-        <span class="font-bold">5</span>
-        PM
+      <div
+        class="weather flex flex-col items-center justify-center no-select
+        svelte-1kbnel3">
+        <div class="weather-day mb-3 text-xl svelte-1kbnel3">
+          <span class="font-bold svelte-1kbnel3">3</span>
+          AM
+        </div>
+        <div class="weather-icon mb-2 svelte-1kbnel3">
+          <i class="owf owf-500 owf-4x svelte-1kbnel3" />
+        </div>
+        <div
+          class="temperatures text-lg flex items-center center svelte-1kbnel3">
+          <div class="actual mr-2 font-bold svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
+          </div>
+          <div class="feels-link svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
+          </div>
+        </div>
       </div>
-      <div class="weather-icon mb-2">
-        <i class="owf owf-500 owf-4x" />
+      <div
+        class="weather flex flex-col items-center justify-center no-select
+        svelte-1kbnel3">
+        <div class="weather-day mb-3 text-xl svelte-1kbnel3">
+          <span class="font-bold svelte-1kbnel3">4</span>
+          AM
+        </div>
+        <div class="weather-icon mb-2 svelte-1kbnel3">
+          <i class="owf owf-500 owf-4x svelte-1kbnel3" />
+        </div>
+        <div
+          class="temperatures text-lg flex items-center center svelte-1kbnel3">
+          <div class="actual mr-2 font-bold svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
+          </div>
+          <div class="feels-link svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
+          </div>
+        </div>
       </div>
-      <div class="temperatures text-lg flex items-center center">
-        <div class="actual mr-2 font-bold">
-          <span>5°</span>
+      <div
+        class="weather flex flex-col items-center justify-center no-select
+        svelte-1kbnel3">
+        <div class="weather-day mb-3 text-xl svelte-1kbnel3">
+          <span class="font-bold svelte-1kbnel3">5</span>
+          AM
+        </div>
+        <div class="weather-icon mb-2 svelte-1kbnel3">
+          <i class="owf owf-500 owf-4x svelte-1kbnel3" />
+        </div>
+        <div
+          class="temperatures text-lg flex items-center center svelte-1kbnel3">
+          <div class="actual mr-2 font-bold svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
+          </div>
+          <div class="feels-link svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="weather flex flex-col items-center justify-center no-select
+        svelte-1kbnel3">
+        <div class="weather-day mb-3 text-xl svelte-1kbnel3">
+          <span class="font-bold svelte-1kbnel3">6</span>
+          AM
+        </div>
+        <div class="weather-icon mb-2 svelte-1kbnel3">
+          <i class="owf owf-500 owf-4x svelte-1kbnel3" />
+        </div>
+        <div
+          class="temperatures text-lg flex items-center center svelte-1kbnel3">
+          <div class="actual mr-2 font-bold svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
+          </div>
+          <div class="feels-link svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="weather flex flex-col items-center justify-center no-select
+        svelte-1kbnel3">
+        <div class="weather-day mb-3 text-xl svelte-1kbnel3">
+          <span class="font-bold svelte-1kbnel3">7</span>
+          AM
+        </div>
+        <div class="weather-icon mb-2 svelte-1kbnel3">
+          <i class="owf owf-500 owf-4x svelte-1kbnel3" />
+        </div>
+        <div
+          class="temperatures text-lg flex items-center center svelte-1kbnel3">
+          <div class="actual mr-2 font-bold svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
+          </div>
+          <div class="feels-link svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="weather flex flex-col items-center justify-center no-select
+        svelte-1kbnel3">
+        <div class="weather-day mb-3 text-xl svelte-1kbnel3">
+          <span class="font-bold svelte-1kbnel3">8</span>
+          AM
+        </div>
+        <div class="weather-icon mb-2 svelte-1kbnel3">
+          <i class="owf owf-500 owf-4x svelte-1kbnel3" />
+        </div>
+        <div
+          class="temperatures text-lg flex items-center center svelte-1kbnel3">
+          <div class="actual mr-2 font-bold svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
+          </div>
+          <div class="feels-link svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="weather flex flex-col items-center justify-center no-select
+        svelte-1kbnel3">
+        <div class="weather-day mb-3 text-xl svelte-1kbnel3">
+          <span class="font-bold svelte-1kbnel3">9</span>
+          AM
+        </div>
+        <div class="weather-icon mb-2 svelte-1kbnel3">
+          <i class="owf owf-500 owf-4x svelte-1kbnel3" />
+        </div>
+        <div
+          class="temperatures text-lg flex items-center center svelte-1kbnel3">
+          <div class="actual mr-2 font-bold svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
+          </div>
+          <div class="feels-link svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="weather flex flex-col items-center justify-center no-select
+        svelte-1kbnel3">
+        <div class="weather-day mb-3 text-xl svelte-1kbnel3">
+          <span class="font-bold svelte-1kbnel3">10</span>
+          AM
+        </div>
+        <div class="weather-icon mb-2 svelte-1kbnel3">
+          <i class="owf owf-500 owf-4x svelte-1kbnel3" />
+        </div>
+        <div
+          class="temperatures text-lg flex items-center center svelte-1kbnel3">
+          <div class="actual mr-2 font-bold svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
+          </div>
+          <div class="feels-link svelte-1kbnel3">
+            <span class="svelte-1kbnel3">26°</span>
+          </div>
+        </div>
+      </div>
+    </Carousel>
 
-        </div>
-        <div class="feels-link">
-          <span>-1°</span>
-        </div>
-      </div>
-    </div>
-    <div class="weather flex flex-col items-center justify-center">
-      <div class="weather-day mb-3 text-xl">
-        <span class="font-bold">6</span>
-        PM
-      </div>
-      <div class="weather-icon mb-2">
-        <i class="owf owf-500 owf-4x" />
-      </div>
-      <div class="temperatures text-lg flex items-center center">
-        <div class="actual mr-2 font-bold">
-          <span>8°</span>
-        </div>
-        <div class="feels-link">
-          <span>3°</span>
-        </div>
-      </div>
-    </div>
-    <div class="weather flex flex-col items-center justify-center">
-      <div class="weather-day mb-3 text-xl">
-        <span class="font-bold">7</span>
-        PM
-      </div>
-      <div class="weather-icon mb-2">
-        <i class="owf owf-500 owf-4x" />
-      </div>
-      <div class="temperatures text-lg flex items-center center">
-        <div class="actual mr-2 font-bold">
-          <span>7°</span>
-        </div>
-        <div class="feels-link">
-          <span>2°</span>
-        </div>
-      </div>
-    </div> -->
   </div>
 </div>

@@ -12,17 +12,17 @@
   let city = "toronto";
   let currentWeather = {};
   onMount(() => {
-    axios
-      .get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=dd91a9e6a83c49a6f37752ea71c27844
-    `
-      )
-      .then(response => {
-        currentWeather = extractWeatherInformation(response.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    // axios
+    //   .get(
+    //     `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=dd91a9e6a83c49a6f37752ea71c27844
+    // `
+    //   )
+    //   .then(response => {
+    //     currentWeather = extractWeatherInformation(response.data);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   });
 </script>
 
@@ -53,16 +53,18 @@
         rgba(0, 0, 0, 0.3)
       ),
       url(https://source.unsplash.com/1600x900/?${city});`}>
-  <div class="container">
-    <Header {city} country={currentWeather.country} />
-    <div class="flex items-center justify-between w-10/12 mx-auto">
-      <Temperature temp={currentWeather.temp} />
-      <WeatherDetails
-        main={currentWeather.main}
-        windSpeed={currentWeather.wind_speed}
-        humidity={currentWeather.humidity}
-        icon={currentWeather.id} />
+  <main>
+    <div class="container">
+      <Header {city} country={currentWeather.country} />
+      <div class="flex items-center justify-between w-10/12 mx-auto">
+        <Temperature temp={currentWeather.temp} />
+        <WeatherDetails
+          main={currentWeather.main}
+          windSpeed={currentWeather.wind_speed}
+          humidity={currentWeather.humidity}
+          icon={currentWeather.id} />
+      </div>
     </div>
-  </div>
-  <WeatherDisplay />
+    <WeatherDisplay />
+  </main>
 </div>
