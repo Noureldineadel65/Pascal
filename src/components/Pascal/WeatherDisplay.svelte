@@ -37,7 +37,7 @@
     font-family: "MuseoModerno", cursive;
   }
   .weathers {
-    padding: 2rem 0;
+    padding: 1.5rem 0;
     position: relative;
   }
 </style>

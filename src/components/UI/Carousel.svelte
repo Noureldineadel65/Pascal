@@ -8,7 +8,7 @@
     if (!isDown) return;
     e.preventDefault();
     const x = e.pageX - carousel.offsetLeft;
-    const walk = (x - startX) * 3;
+    const walk = x - startX;
 
     carousel.scrollLeft = scrollLeft - walk;
   }
@@ -40,7 +40,7 @@
   .dots {
     position: absolute;
     display: flex;
-    bottom: -0.5rem;
+    bottom: -1rem;
     z-index: 5;
     left: 50%;
     transform: translateX(-50%);
@@ -70,6 +70,16 @@
     scrollLeft = carousel.scrollLeft;
   }}
   on:mouseup={() => {
+    isDown = false;
+    if (carousel.scrollLeft <= 221) {
+      carousel.scrollLeft = 0;
+      slideIndex = 2;
+    } else {
+      carousel.scrollLeft = carousel.offsetWidth;
+      slideIndex = 1;
+    }
+  }}
+  on:mouseleave={() => {
     isDown = false;
     if (carousel.scrollLeft <= 221) {
       carousel.scrollLeft = 0;
