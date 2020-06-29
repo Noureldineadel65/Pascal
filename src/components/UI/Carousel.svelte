@@ -1,17 +1,100 @@
 <script>
+  import { onMount } from "svelte";
   let carousel;
-  let isDown = false;
-  let startX;
-  let scrollLeft;
-  let slideIndex = 1;
-  function handleWalk(e) {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - carousel.offsetLeft;
-    const walk = x - startX;
 
-    carousel.scrollLeft = scrollLeft - walk;
+  const NF = 30,
+    TFN = {
+      linear: function(k) {
+        return k;
+      },
+      "ease-in": function(k, e = 1.675) {
+        return Math.pow(k, e);
+      },
+      "ease-out": function(k, e = 1.675) {
+        return 1 - Math.pow(1 - k, e);
+      },
+      "ease-in-out": function(k) {
+        return 0.5 * (Math.sin((k - 0.5) * Math.PI) + 1);
+      }
+    };
+
+  let i = 0,
+    x0 = null,
+    locked = false,
+    w,
+    ini,
+    fin,
+    rID = null,
+    anf;
+
+  function stopAni() {
+    cancelAnimationFrame(rID);
+    rID = null;
   }
+
+  function ani(cf = 0) {
+    carousel.style.setProperty(
+      "--i",
+      ini + (fin - ini) * TFN["ease-out"](cf / anf)
+    );
+
+    if (cf === anf) {
+      stopAni();
+      return;
+    }
+
+    rID = requestAnimationFrame(ani.bind(this, ++cf));
+  }
+
+  function unify(e) {
+    return e.changedTouches ? e.changedTouches[0] : e;
+  }
+
+  function lock(e) {
+    x0 = unify(e).clientX;
+    locked = true;
+  }
+
+  function drag(e) {
+    e.preventDefault();
+
+    if (locked) {
+      let dx = unify(e).clientX - x0,
+        f = +(dx / w).toFixed(2);
+
+      carousel.style.setProperty("--i", i - f);
+    }
+  }
+
+  function move(e) {
+    if (locked) {
+      let dx = unify(e).clientX - x0,
+        s = Math.sign(dx),
+        f = +((s * dx) / w).toFixed(2);
+
+      ini = i - s * f;
+
+      if ((i > 0 || s < 0) && (i < 2 - 1 || s > 0) && f > 0.2) {
+        i -= s;
+        f = 1 - f;
+      }
+
+      fin = i;
+      anf = Math.round(f * NF);
+      ani();
+      x0 = null;
+      locked = false;
+    }
+  }
+
+  function size() {
+    w = window.innerWidth;
+  }
+
+  size();
+  onMount(() => {
+    $: console.log(getComputedStyle(carousel).getPropertyValue("--i"));
+  });
 </script>
 
 <style>
@@ -20,15 +103,22 @@
   }
 
   .carousel {
-    width: 95%;
-    scroll-behavior: smooth;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    --n: 2;
+    display: flex;
+    align-items: center;
+    overflow-y: hidden;
+    width: 100%;
+    width: calc(var(--n) * 100%);
+    transform: translate(calc(var(--i, 0) / var(--n) * -100%));
   }
-  .carousel::-webkit-scrollbar {
-    width: 0px; /* Remove scrollbar space */
-    background: transparent; /* Optional: just make scrollbar invisible */
-    height: 0;
+  .carousel :global(.slide) {
+    width: 100%;
+    width: calc(100% / 2);
+    user-select: none;
+    pointer-events: none;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2rem;
   }
   .dot {
     width: 1rem;
@@ -62,49 +152,22 @@
 </style>
 
 <div
-  class="carousel flex items-center mx-auto overflow-x-scroll no-select"
-  on:mousemove={handleWalk}
-  on:mousedown={e => {
-    isDown = true;
-    startX = e.pageX - carousel.offsetLeft;
-    scrollLeft = carousel.scrollLeft;
-  }}
-  on:mouseup={() => {
-    isDown = false;
-    if (carousel.scrollLeft <= 221) {
-      carousel.scrollLeft = 0;
-      slideIndex = 2;
-    } else {
-      carousel.scrollLeft = carousel.offsetWidth;
-      slideIndex = 1;
-    }
-  }}
-  on:mouseleave={() => {
-    isDown = false;
-    if (carousel.scrollLeft <= 221) {
-      carousel.scrollLeft = 0;
-      slideIndex = 2;
-    } else {
-      carousel.scrollLeft = carousel.offsetWidth;
-      slideIndex = 1;
-    }
-  }}
-  bind:this={carousel}>
+  class="carousel flex items-center mx-auto overflow-x-hidden no-select"
+  bind:this={carousel}
+  on:mousedown={lock}
+  on:touchstart={lock}
+  on:mousemove={drag}
+  on:touchmove={drag}
+  on:mouseup={move}
+  on:touchend={move}>
   <slot />
-  <div class="dots">
-    <div
-      class="dot mr-2"
-      on:click={() => {
-        carousel.scrollLeft = 0;
-      }}>
-      <span class:activeDot={slideIndex === 1} />
-    </div>
-    <div
-      class="dot"
-      on:click={() => {
-        carousel.scrollLeft = carousel.offsetWidth;
-      }}>
-      <span class:activeDot={slideIndex === 2} />
-    </div>
+
+</div>
+<div class="dots">
+  <div class="dot mr-2">
+    <span class="activeDot" />
+  </div>
+  <div class="dot">
+    <span />
   </div>
 </div>
