@@ -3,6 +3,7 @@
   import { extractWeatherInformation } from "./utils";
   import Tailwind from "./Tailwind.svelte";
   import Nav from "./components/UI/Nav.svelte";
+  import LocationSearch from "./components/Pascal/LocationSearch.svelte";
   import WeatherStore from "./stores/weather-store.js";
   import Header from "./components/UI/Header.svelte";
   import Temperature from "./components/Pascal/Temperature.svelte";
@@ -12,21 +13,26 @@
   import { onMount } from "svelte";
   let city = "";
   let currentWeather = {};
-  onMount(() => {
-    axios
+  onMount(async () => {
+    await axios
       .get("https://geolocation-db.com/json/")
       .then(e => (city = e.data.city));
-    axios
-      .get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=dd91a9e6a83c49a6f37752ea71c27844
-    `
-      )
-      .then(response => {
-        currentWeather = extractWeatherInformation(response.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    // await axios
+    //   .get(
+    //     `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=dd91a9e6a83c49a6f37752ea71c27844
+    // `
+    //   )
+    //   .then(response => {
+    //     currentWeather = extractWeatherInformation(response.data);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+    // await axios
+    //   .get(
+    //     "https://raw.githubusercontent.com/russ666/all-countries-and-cities-json/6ee538beca8914133259b401ba47a550313e8984/countries.min.json"
+    //   )
+    //   .then(e => console.log(e.data));
   });
 </script>
 
@@ -57,6 +63,8 @@
         rgba(0, 0, 0, 0.3)
       ),
       url(https://source.unsplash.com/1600x900/?${city});`}>
+
+  <LocationSearch />
   <main>
     <Nav />
     <div class="container">

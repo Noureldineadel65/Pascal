@@ -7,6 +7,7 @@
   }
   nav {
     padding: 1rem 2rem;
+    height: 8rem;
   }
 </style>
 
