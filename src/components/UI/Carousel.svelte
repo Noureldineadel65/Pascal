@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   let carousel;
-
+  let selectedIndex = 1;
   const NF = 30,
     TFN = {
       linear: function(k) {
@@ -49,10 +49,51 @@
   function unify(e) {
     return e.changedTouches ? e.changedTouches[0] : e;
   }
+  function getTranslateValues(element) {
+    const style = window.getComputedStyle(element);
+    const matrix =
+      style.transform || style.webkitTransform || style.mozTransform;
 
+    // No transform property. Simply return 0 values.
+    if (matrix === "none") {
+      return {
+        x: 0,
+        y: 0,
+        z: 0
+      };
+    }
+
+    // Can either be 2d or 3d transform
+    const matrixType = matrix.includes("3d") ? "3d" : "2d";
+    const matrixValues = matrix.match(/matrix.*\((.+)\)/)[1].split(", ");
+
+    // 2d matrices have 6 values
+    // Last 2 values are X and Y.
+    // 2d matrices does not have Z value.
+    if (matrixType === "2d") {
+      return {
+        x: matrixValues[4],
+        y: matrixValues[5],
+        z: 0
+      };
+    }
+
+    // 3d matrices have 16 values
+    // The 13th, 14th, and 15th values are X, Y, and Z
+    if (matrixType === "3d") {
+      return {
+        x: matrixValues[12],
+        y: matrixValues[13],
+        z: matrixValues[14]
+      };
+    }
+  }
   function lock(e) {
     x0 = unify(e).clientX;
     locked = true;
+    console.log(getTranslateValues(carousel));
+    const property = getComputedStyle(carousel).getPropertyValue("--i");
+    selectedIndex = property === "" || property == 0 ? 2 : 1;
   }
 
   function drag(e) {
@@ -92,14 +133,13 @@
   }
 
   size();
-  onMount(() => {
-    $: console.log(getComputedStyle(carousel).getPropertyValue("--i"));
-  });
+  onMount(() => {});
 </script>
 
 <style>
   .carousel :global(.weather) {
-    flex: 0 0 20%;
+    /* box-shadow: 10px 10px 74px -11px rgba(0, 0, 0, 0.75); */
+    /* width: 3rem; */
   }
 
   .carousel {
@@ -121,9 +161,9 @@
     padding: 0 2rem;
   }
   .dot {
-    width: 1rem;
-    height: 1rem;
-    background: rgba(0, 0, 0, 0.274);
+    width: 1.3rem;
+    height: 1.3rem;
+    background: rgba(255, 255, 255, 0.274);
     border-radius: 50%;
     position: relative;
   }
@@ -147,7 +187,7 @@
     transform: translate(-50%, -50%);
   }
   .dot .activeDot {
-    background: rgba(255, 255, 255, 1);
+    background: rgb(255, 255, 255);
   }
 </style>
 
@@ -165,9 +205,14 @@
 </div>
 <div class="dots">
   <div class="dot mr-2">
-    <span class="activeDot" />
+    <span
+      class:activeDot={selectedIndex === 1}
+      on:click={e => {
+        carousel.style.setProperty('--1', 0);
+        move(e);
+      }} />
   </div>
   <div class="dot">
-    <span />
+    <span class:activeDot={selectedIndex === 2} on:click={e => {}} />
   </div>
 </div>

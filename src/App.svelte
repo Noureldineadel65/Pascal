@@ -2,6 +2,7 @@
   import axios from "axios";
   import { extractWeatherInformation } from "./utils";
   import Tailwind from "./Tailwind.svelte";
+  import Nav from "./components/UI/Nav.svelte";
   import WeatherStore from "./stores/weather-store.js";
   import Header from "./components/UI/Header.svelte";
   import Temperature from "./components/Pascal/Temperature.svelte";
@@ -9,9 +10,12 @@
   import WeatherDisplay from "./components/Pascal/WeatherDisplay.svelte";
 
   import { onMount } from "svelte";
-  let city = "cairo";
+  let city = "";
   let currentWeather = {};
   onMount(() => {
+    axios
+      .get("https://geolocation-db.com/json/")
+      .then(e => (city = e.data.city));
     axios
       .get(
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=dd91a9e6a83c49a6f37752ea71c27844
@@ -54,6 +58,7 @@
       ),
       url(https://source.unsplash.com/1600x900/?${city});`}>
   <main>
+    <Nav />
     <div class="container">
       <Header {city} country={currentWeather.country} />
       <div class="flex items-center justify-between w-10/12 mx-auto">

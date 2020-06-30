@@ -8,7 +8,7 @@
     width: 2.3rem;
   }
   .days img {
-    width: 4rem;
+    width: 3rem;
   }
   header {
     padding: 2rem 0;
@@ -27,6 +27,6 @@
     <span class="uppercase country-name">{country}</span>
   </div>
   <a href="#" class="days">
-    <img src="images/menu.svg" />
+    <img src="images/calendar.svg" />
   </a>
 </header>
