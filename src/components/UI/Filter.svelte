@@ -33,7 +33,7 @@
     if (listOn) listOn = false;
   }} />
 <div
-  class="filter lg:w-1/6 font-semibold text-xl relative w-full"
+  class="filter font-semibold text-xl relative w-full"
   on:click|stopPropagation>
   <div
     class="dropdown flex items-center justify-between bg-white w-fulltext-xl p-6

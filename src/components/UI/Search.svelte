@@ -1,3 +1,11 @@
+<script>
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
+  function handleSearch(e) {
+    dispatch("search", e.target.value);
+  }
+</script>
+
 <style>
   input {
     font-size: 1.5rem;
@@ -22,7 +30,10 @@
 </style>
 
 <div class="search mx-auto relative">
-  <input type="text" placeholder="Search countries..." />
+  <input
+    type="text"
+    placeholder="Search countries..."
+    on:keyup={handleSearch} />
   <div class="search-icon flex items-center justify-center absolute">
     <img src="./images/search.svg" />
   </div>
