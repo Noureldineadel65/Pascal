@@ -1,5 +1,5 @@
 import svelte from "rollup-plugin-svelte";
-
+import json from "rollup-plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import livereload from "rollup-plugin-livereload";
@@ -25,7 +25,12 @@ export default {
 				css.write("public/build/bundle.css");
 			},
 		}),
-
+		json({
+			preferConst: true,
+			indent: "  ",
+			compact: true,
+			namedExports: true,
+		}),
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In
 		// some cases you'll need additional configuration -

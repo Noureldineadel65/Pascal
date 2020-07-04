@@ -1,21 +1,18 @@
 <script>
-  import { createEventDispatcher } from "svelte";
-
+  import { createEventDispatcher, onMount } from "svelte";
+  import { removeDataAttribute } from "../../utils";
   import countriesStore from "../../stores/countries-store.js";
   let listItem;
   const dispatch = createEventDispatcher();
+
   export let text = "";
-  let displaySpan = false;
+  export let displaySpan = false;
+  export let cities = { cities: [] };
   function selectCountry(e) {
-    console.log(document.querySelector(`.country[data-selected="true"]`));
-    if (Boolean(listItem.dataset.selected) === true) {
-      listItem.dataset.selected = "false";
-      displaySpan = false;
-    } else {
-      countriesStore.moveToFront(e.target.textContent);
-      listItem.dataset.selected = "true";
-      displaySpan = true;
-    }
+    dispatch("select", {
+      name: e.target.textContent,
+      cities: cities ? cities.cities : cities
+    });
   }
 </script>
 
@@ -50,7 +47,11 @@
   }
 </style>
 
-<li class="country mb-2 relative" on:click={selectCountry} bind:this={listItem}>
+<li
+  class="country mb-2 relative"
+  on:click={selectCountry}
+  bind:this={listItem}
+  data-selected="false">
   {text}
   {#if displaySpan}
     <div class="check absolute flex items-center justify-center">

@@ -17,7 +17,6 @@
 
 <style>
   .selections {
-    bottom: -17.5rem;
     z-index: 10;
   }
   .rotate {
@@ -32,9 +31,7 @@
   on:click={e => {
     if (listOn) listOn = false;
   }} />
-<div
-  class="filter font-semibold text-xl relative w-full"
-  on:click|stopPropagation>
+<div class="filter font-semibold text-xl relative" on:click|stopPropagation>
   <div
     class="dropdown flex items-center justify-between bg-white w-fulltext-xl p-6
     px-10 rounded-md shadow cursor-pointer"
@@ -54,10 +51,9 @@
     {/if}
 
   </div>
-  {#if listOn && list.length}
+  {#if listOn && list && list.length}
     <ul
-      class="bg-white static mt-4 lg:mt-0 lg:absolute w-full p-8 rounded-md
-      shadow selections"
+      class="bg-white mt-4 absolute p-8 rounded-md shadow selections w-full"
       transition:fly={{ y: -20, duration: 200 }}
       on:click|stopPropagation={() => (listOn = true)}>
       {#each list as item, i}
@@ -68,29 +64,6 @@
           {item}
         </li>
       {/each}
-      <!-- <li
-        class="mb-2 cursor-pointer selection-item"
-        on:click={dispatchSelection}>
-        Africa
-      </li>
-      <li
-        class="mb-2 cursor-pointer selection-item"
-        on:click={dispatchSelection}>
-        Americas
-      </li>
-      <li
-        class="mb-2 cursor-pointer selection-item"
-        on:click={dispatchSelection}>
-        Asia
-      </li>
-      <li
-        class="mb-2 cursor-pointer selection-item"
-        on:click={dispatchSelection}>
-        Europe
-      </li>
-      <li class="cursor-pointer selection-item" on:click={dispatchSelection}>
-        Oceania
-      </li> -->
     </ul>
   {/if}
 </div>

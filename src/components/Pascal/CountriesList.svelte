@@ -1,18 +1,23 @@
 <script>
   import axios from "axios";
+  import cities from "../../cities.json";
   import { cityNameData } from "../../utils";
   import { onMount } from "svelte";
   import ListItem from "../UI/ListItem.svelte";
   import countriesStore from "../../stores/countries-store.js";
+  export let search = "";
+  export let selected = "Current Location";
   onMount(() => {
-    axios
-      .get(
-        "https://raw.githubusercontent.com/russ666/all-countries-and-cities-json/6ee538beca8914133259b401ba47a550313e8984/countries.min.json"
-      )
-      .then(data => {
-        countriesStore.setCountries(cityNameData(data.data));
-      });
+    countriesStore.setCountries(cityNameData(cities));
   });
+  let countries = [];
+  function filterCountries(data) {
+    return data.filter(e => e[0].toLowerCase().includes(search.toLowerCase()));
+  }
+  $: countries = Boolean(search)
+    ? filterCountries($countriesStore)
+    : $countriesStore;
+  $: console.log(selected);
 </script>
 
 <style>
@@ -35,17 +40,18 @@
   }
 </style>
 
-<ul class="countries-list my-8">
-  <!-- <li class="country mb-2">
-    Current Location
-    <span class="check">
-      <img src="./images/check.svg" />
-    </span>
-  </li> -->
-  <ListItem text={'Current Location'} />
-  {#each $countriesStore as country, i (country)}
+<ul class="countries-list my-8 pr-4">
+  <ListItem
+    text={'Current Location'}
+    on:select
+    displaySpan={'Current Location' === selected} />
+  {#each countries as country (country)}
     <div class="list-item-container">
-      <ListItem text={country[0]} />
+      <ListItem
+        text={country[0]}
+        cities={country[1]}
+        on:select
+        displaySpan={country[0] === selected} />
     </div>
   {/each}
 </ul>

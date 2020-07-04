@@ -1,14 +1,10 @@
 <script>
   import Filter from "../UI/Filter.svelte";
-  let citiesList = [];
-  let regionsList = ["Africa", "Americas", "Asia", "Europe", "Oceania"];
+  export let cities;
 </script>
 
-<div class="filters flex mt-5">
-  <div class="filter-container mr-8 w-full">
-    <Filter text="Filter Region" list={regionsList} />
-  </div>
+<div class="filters flex w-full">
   <div class="filter-container w-full">
-    <Filter text="Select City" list={citiesList} />
+    <Filter text="Select City" list={cities} />
   </div>
 </div>
