@@ -11,13 +11,14 @@
     countriesStore.setCountries(cityNameData(cities));
   });
   let countries = [];
+
   function filterCountries(data) {
     return data.filter(e => e[0].toLowerCase().includes(search.toLowerCase()));
   }
   $: countries = Boolean(search)
     ? filterCountries($countriesStore)
     : $countriesStore;
-  $: console.log(selected);
+  let indexes = 20;
 </script>
 
 <style>
@@ -41,17 +42,29 @@
 </style>
 
 <ul class="countries-list my-8 pr-4">
-  <ListItem
-    text={'Current Location'}
-    on:select
-    displaySpan={'Current Location' === selected} />
-  {#each countries as country (country)}
-    <div class="list-item-container">
-      <ListItem
-        text={country[0]}
-        cities={country[1]}
-        on:select
-        displaySpan={country[0] === selected} />
+  <div
+    class="list-item-container"
+    class:selected={selected
+      .toLowerCase()
+      .trim() == 'Current Location'.toLowerCase().trim()}>
+    <ListItem text={'Current Location'} on:select {selected} />
+  </div>
+  {#each countries.slice(0, indexes) as country (country)}
+    <div
+      class="list-item-container"
+      class:selected={selected
+        .toLowerCase()
+        .trim() === country[0].toLowerCase().trim()}>
+      <ListItem text={country[0]} cities={country[1]} on:select {selected} />
     </div>
   {/each}
+  {#if countries.length >= 20 && countries.slice(0, indexes).length !== countries.length}
+    <div class="font-semibold text-xl relative flex justify-center my-8 w-full">
+      <button
+        class="text-xl font-semibold rounded-md shadow p-6 w-full text-center"
+        on:click={() => (indexes += 20)}>
+        Show More
+      </button>
+    </div>
+  {/if}
 </ul>

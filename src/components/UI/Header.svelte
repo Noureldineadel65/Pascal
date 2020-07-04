@@ -1,6 +1,11 @@
 <script>
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
   export let city = "";
   export let country = "";
+  function handleLocation() {
+    dispatch("openLocation");
+  }
 </script>
 
 <style>
@@ -19,7 +24,7 @@
 </style>
 
 <header class="flex items-center text-xl text-white justify-between">
-  <a href="#" class="add">
+  <a href="#" class="add" on:click={handleLocation}>
     <img src="images/location.svg" />
   </a>
   <div class="name">

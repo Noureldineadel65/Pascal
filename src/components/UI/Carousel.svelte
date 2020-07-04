@@ -192,7 +192,7 @@
 </style>
 
 <div
-  class="carousel flex items-center mx-auto overflow-x-hidden no-select"
+  class="carousel flex items-center overflow-x-hidden no-select"
   bind:this={carousel}
   on:mousedown={lock}
   on:touchstart={lock}

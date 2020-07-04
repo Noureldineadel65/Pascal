@@ -1,8 +1,15 @@
 <script>
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
+  let displayClose = false;
+  let input;
   function handleSearch(e) {
     dispatch("search", e.target.value);
+    if (Boolean(e.target.value)) {
+      displayClose = true;
+    } else {
+      displayClose = false;
+    }
   }
 </script>
 
@@ -24,8 +31,11 @@
     top: 50%;
     transform: translateY(-50%);
   }
+  .search-icon-white {
+    background-color: #fff !important;
+  }
   img {
-    width: 40%;
+    width: 60%;
   }
 </style>
 
@@ -33,8 +43,24 @@
   <input
     type="text"
     placeholder="Search countries..."
-    on:keyup={handleSearch} />
-  <div class="search-icon flex items-center justify-center absolute">
-    <img src="./images/search.svg" />
-  </div>
+    on:input={handleSearch}
+    bind:this={input} />
+  {#if displayClose}
+    <button
+      class="search-icon flex items-center justify-center absolute
+      cursor-pointer"
+      on:click={() => {
+        dispatch('search', '');
+        input.value = '';
+        displayClose = false;
+      }}>
+      <img src="./images/close2.svg" />
+    </button>
+  {:else}
+    <div
+      class="search-icon search-icon-white flex items-center justify-center
+      absolute cursor-pointer">
+      <img src="./images/search.svg" />
+    </div>
+  {/if}
 </div>

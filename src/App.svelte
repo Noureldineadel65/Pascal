@@ -13,26 +13,22 @@
   import { onMount } from "svelte";
   let city = "";
   let currentWeather = {};
+  let showLocation = false;
   onMount(async () => {
     await axios
       .get("https://geolocation-db.com/json/")
       .then(e => (city = e.data.city));
-    // await axios
-    //   .get(
-    //     `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=dd91a9e6a83c49a6f37752ea71c27844
-    // `
-    //   )
-    //   .then(response => {
-    //     currentWeather = extractWeatherInformation(response.data);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-    // await axios
-    //   .get(
-    //     "https://raw.githubusercontent.com/russ666/all-countries-and-cities-json/6ee538beca8914133259b401ba47a550313e8984/countries.min.json"
-    //   )
-    //   .then(e => console.log(e.data));
+    await axios
+      .get(
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=dd91a9e6a83c49a6f37752ea71c27844
+    `
+      )
+      .then(response => {
+        currentWeather = extractWeatherInformation(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   });
 </script>
 
@@ -64,11 +60,16 @@
       ),
       url(https://source.unsplash.com/1600x900/?${city});`}>
 
-  <LocationSearch />
+  {#if showLocation}
+    <LocationSearch on:closeLocation={() => (showLocation = false)} />
+  {/if}
   <main>
     <Nav />
     <div class="container">
-      <Header {city} country={currentWeather.country} />
+      <Header
+        {city}
+        country={currentWeather.country}
+        on:openLocation={() => (showLocation = true)} />
       <div class="flex items-center justify-between w-10/12 mx-auto">
         <Temperature temp={currentWeather.temp} />
         <WeatherDetails

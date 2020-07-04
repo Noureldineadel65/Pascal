@@ -1,6 +1,9 @@
 <script>
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
   import Search from "../UI/Search.svelte";
   import Filters from "../UI/Filters.svelte";
+  import countriesStore from "../../stores/countries-store.js";
   import CountriesList from "./CountriesList.svelte";
   let search = "";
   let selected = "Current Location";
@@ -8,10 +11,23 @@
   function handleSelection(e) {
     if (selected === e.detail.name) {
       selected = "Current Location";
+      cities = [];
+      countriesStore.sortCountries();
     } else {
       selected = e.detail.name;
+      cities = e.detail.cities;
+      if (
+        selected.trim().toLowerCase() ===
+        "Current Location".trim().toLowerCase()
+      ) {
+        countriesStore.sortCountries();
+      } else {
+        countriesStore.moveToFront(selected);
+      }
     }
-    cities = e.detail.cities;
+  }
+  function handleClose() {
+    dispatch("closeLocation");
   }
 </script>
 
@@ -57,7 +73,8 @@
       <div class="action font-semibold text-xl relative text-white">
         <button
           class="text-xl font-semibold rounded-md shadow close flex
-          justify-center items-center">
+          justify-center items-center"
+          on:click={handleClose}>
           <img src="./images/close.svg" />
         </button>
       </div>

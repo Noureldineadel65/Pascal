@@ -4,9 +4,9 @@
   import countriesStore from "../../stores/countries-store.js";
   let listItem;
   const dispatch = createEventDispatcher();
-
+  export let selected;
   export let text = "";
-  export let displaySpan = false;
+  let displaySpan = false;
   export let cities = { cities: [] };
   function selectCountry(e) {
     dispatch("select", {
@@ -14,6 +14,7 @@
       cities: cities ? cities.cities : cities
     });
   }
+  $: displaySpan = selected.toLowerCase().trim() == text.toLowerCase().trim();
 </script>
 
 <style>

@@ -72,3 +72,9 @@ button::-moz-focus-inner {
 	user-select: none; /* Non-prefixed version, currently
 									supported by Chrome, Edge, Opera and Firefox */
 }
+button {
+	transition: transform 0.3s;
+}
+button:active {
+	transform: scale(0.9);
+}
