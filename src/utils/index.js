@@ -41,17 +41,12 @@ export function extractWeatherInformation(data) {
 export function getHour(time) {
 	return time.split(":")[0];
 }
-export function compareStrings(string1, string2) {
-	return string1.toLowerCase().trim() === string2.toLowerCase().trim();
-}
 export function cityNameData(data) {
-	// const organized = [];
-	// for (const [key, value] of Object.entries(data)) {
-	// 	organized.push([key, { data: value }]);
-	// }
-	// return organized;
 	return data.map((e) => [e.country, { cities: e.cities }]);
 }
 export function removeDataAttribute(element, attr) {
 	console.log(element);
+}
+export function compareStrings(string1, string2) {
+	return string1.toLowerCase().trim() === string2.toLowerCase().trim();
 }

@@ -1,11 +1,14 @@
 <script>
   import { createEventDispatcher } from "svelte";
+  import selectedOptions from "../../stores/selected-options.js";
+
   const dispatch = createEventDispatcher();
   import { fly } from "svelte/transition";
   export let list = [];
   let listOn = false;
   export let text = "";
   let selected = text;
+  export let resetFilter;
   function dispatchSelection(e) {
     dispatch("selected", e.target.textContent);
     selected = e.target.textContent;
@@ -13,6 +16,7 @@
       listOn = false;
     }, 0);
   }
+  $: selected = list.length === 0 ? text : selected;
 </script>
 
 <style>
@@ -39,6 +43,7 @@
       if (e.target.classList.contains('close-filter')) {
         selected = text;
         dispatch('resetFilter');
+        selectedOptions.updateCity('');
       } else {
         listOn = !listOn;
       }

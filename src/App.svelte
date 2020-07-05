@@ -18,17 +18,17 @@
     await axios
       .get("https://geolocation-db.com/json/")
       .then(e => (city = e.data.city));
-    await axios
-      .get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=dd91a9e6a83c49a6f37752ea71c27844
-    `
-      )
-      .then(response => {
-        currentWeather = extractWeatherInformation(response.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    // await axios
+    //   .get(
+    //     `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=dd91a9e6a83c49a6f37752ea71c27844
+    // `
+    //   )
+    //   .then(response => {
+    //     currentWeather = extractWeatherInformation(response.data);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   });
 </script>
 

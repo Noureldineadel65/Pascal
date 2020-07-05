@@ -8,17 +8,19 @@ Array.prototype.moveToStart = function (index) {
 export default {
 	subscribe: store.subscribe,
 	setCountries: function (data) {
-		store.set(data);
+		store.set(
+			data.map((e) => [
+				e[0].trim(),
+				{ cities: e[1].cities.map((i) => i.trim()) },
+			])
+		);
 		this.sortCountries();
 	},
 	moveToFront: function (item) {
 		this.sortCountries();
 		store.update((data) => {
 			return data.moveToStart(
-				data.findIndex(
-					(e) =>
-						e[0].toLowerCase().trim() === item.toLowerCase().trim()
-				)
+				data.findIndex((e) => compareStrings(e[0], item))
 			);
 		});
 	},
