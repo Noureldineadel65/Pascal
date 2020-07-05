@@ -1,6 +1,8 @@
 <script>
   import { createEventDispatcher, onMount } from "svelte";
   import { removeDataAttribute } from "../../utils";
+  import { scale } from "svelte/transition";
+
   import countriesStore from "../../stores/countries-store.js";
   let listItem;
   const dispatch = createEventDispatcher();
@@ -55,7 +57,9 @@
   data-selected="false">
   {text}
   {#if displaySpan}
-    <div class="check absolute flex items-center justify-center">
+    <div
+      class="check absolute flex items-center justify-center"
+      transition:scale={{ duration: 300 }}>
       <img src="./images/check.svg" />
     </div>
   {/if}

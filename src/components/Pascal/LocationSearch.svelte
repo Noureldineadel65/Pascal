@@ -35,6 +35,7 @@
     }
   }
   function handleClose() {
+    selectedOptions.set({ country: "Current Location", city: "" });
     dispatch("closeLocation");
   }
   function applyChanges() {

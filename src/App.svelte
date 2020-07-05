@@ -2,6 +2,7 @@
   import axios from "axios";
   import { extractWeatherInformation } from "./utils";
   import Tailwind from "./Tailwind.svelte";
+  import { fly } from "svelte/transition";
   import Nav from "./components/UI/Nav.svelte";
   import LocationSearch from "./components/Pascal/LocationSearch.svelte";
   import WeatherStore from "./stores/weather-store.js";
@@ -61,7 +62,9 @@
       url(https://source.unsplash.com/1600x900/?${city});`}>
 
   {#if showLocation}
-    <LocationSearch on:closeLocation={() => (showLocation = false)} />
+    <div class="location-page" transition:fly={{ x: -1000, duration: 500 }}>
+      <LocationSearch on:closeLocation={() => (showLocation = false)} />
+    </div>
   {/if}
   <main>
     <Nav />

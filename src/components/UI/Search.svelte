@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher } from "svelte";
+  import { scale } from "svelte/transition";
   const dispatch = createEventDispatcher();
   let displayClose = false;
   let input;
@@ -53,13 +54,15 @@
         dispatch('search', '');
         input.value = '';
         displayClose = false;
-      }}>
+      }}
+      transition:scale={{ duration: 300 }}>
       <img src="./images/close2.svg" />
     </button>
   {:else}
     <div
       class="search-icon search-icon-white flex items-center justify-center
-      absolute cursor-pointer">
+      absolute cursor-pointer"
+      transition:scale={{ duration: 300 }}>
       <img src="./images/search.svg" />
     </div>
   {/if}

@@ -1,5 +1,6 @@
 <script>
   import axios from "axios";
+  import { flip } from "svelte/animate";
   import cities from "../../cities.json";
   import { cityNameData } from "../../utils";
   import { onMount } from "svelte";
@@ -7,6 +8,7 @@
   import countriesStore from "../../stores/countries-store.js";
   export let search = "";
   export let selected = "Current Location";
+  let parent;
   onMount(() => {
     countriesStore.setCountries(cityNameData(cities));
   });
@@ -41,9 +43,9 @@
   }
 </style>
 
-<ul class="countries-list my-8 pr-4">
+<ul class="countries-list my-8 pr-4" bind:this={parent}>
   <div
-    class="list-item-container"
+    class="list-item-container current-location"
     class:selected={selected
       .toLowerCase()
       .trim() == 'Current Location'.toLowerCase().trim()}>
@@ -54,7 +56,11 @@
       class="list-item-container"
       class:selected={selected
         .toLowerCase()
-        .trim() === country[0].toLowerCase().trim()}>
+        .trim() === country[0].toLowerCase().trim()}
+      on:click={() => {
+        parent.scrollTop = 0;
+      }}
+      animate:flip={{ duration: 200 }}>
       <ListItem text={country[0]} cities={country[1]} on:select {selected} />
     </div>
   {/each}
