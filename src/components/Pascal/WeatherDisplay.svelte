@@ -8,17 +8,17 @@
   let index = 0;
   $: list = $WeatherStore.length ? $WeatherStore[index] : [];
   onMount(() => {
-    axios
-      .get(
-        "https://api.openweathermap.org/data/2.5/forecast?q=cairo&units=metric&appid=dd91a9e6a83c49a6f37752ea71c27844"
-      )
-      .then(response => {
-        WeatherStore.setWeatherData(
-          response.data.list.map(e => {
-            return extractWeatherInformation(e);
-          })
-        );
-      });
+    // axios
+    //   .get(
+    //     "https://api.openweathermap.org/data/2.5/forecast?q=cairo&units=metric&appid=dd91a9e6a83c49a6f37752ea71c27844"
+    //   )
+    //   .then(response => {
+    //     WeatherStore.setWeatherData(
+    //       response.data.list.map(e => {
+    //         return extractWeatherInformation(e);
+    //       })
+    //     );
+    //   });
   });
 </script>
 
@@ -52,7 +52,7 @@
         <div class="slide-1 flex items-center slide">
           {#each list.slice(0, 4) as weather}
             <div
-              class="weather px-4 py-2 flex flex-col items-center justify-center
+              class="weather px-4 py-2 flex flex-col justify-center items-center
               no-select">
               <div class="weather-day mb-3 text-xl">
                 <span class="font-bold">{weather.time.split(':')[0]}</span>
