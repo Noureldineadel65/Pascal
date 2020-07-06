@@ -4,14 +4,15 @@ export function organizeWeatherData(organizedData) {
 		let u = 1;
 		const lastIndex = organizedData.length - 1;
 		let newData = [...e.data];
-		let neededData = 10 - newData.length;
-		while (newData.length < 10 && i !== lastIndex) {
+		const wantedNum = 8;
+		let neededData = wantedNum - newData.length;
+		while (newData.length < wantedNum && i !== lastIndex) {
 			newData = [
 				...newData,
 				...organizedData[i + u].data.slice(0, neededData),
 			];
 			u++;
-			neededData = 10 - newData.length;
+			neededData = wantedNum - newData.length;
 		}
 		return newData;
 	});

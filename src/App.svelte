@@ -1,7 +1,11 @@
 <script>
   import axios from "axios";
+  import currentWeather from "./stores/current-weather.js";
+
   import { extractWeatherInformation } from "./utils";
   import Tailwind from "./Tailwind.svelte";
+  import selectedOptions from "./stores/selected-options.js";
+  import weatherAPI from "./api.js";
   import { fly } from "svelte/transition";
   import Nav from "./components/UI/Nav.svelte";
   import LocationSearch from "./components/Pascal/LocationSearch.svelte";
@@ -13,12 +17,12 @@
 
   import { onMount } from "svelte";
   let city = "";
-  let currentWeather = {};
   let showLocation = false;
   onMount(async () => {
-    await axios
-      .get("https://geolocation-db.com/json/")
-      .then(e => (city = e.data.city));
+    weatherAPI($selectedOptions);
+    // await axios
+    //   .get("https://geolocation-db.com/json/")
+    //   .then(e => (city = e.data.city));
     // await axios
     //   .get(
     //     `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=dd91a9e6a83c49a6f37752ea71c27844
@@ -26,6 +30,7 @@
     //   )
     //   .then(response => {
     //     currentWeather = extractWeatherInformation(response.data);
+    //     console.log(extractWeatherInformation(response.data));
     //   })
     //   .catch(err => {
     //     console.log(err);
@@ -41,6 +46,9 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+  }
+  button:focus global {
+    outline: none;
   }
 </style>
 
@@ -62,7 +70,7 @@
       url(https://source.unsplash.com/1600x900/?${city});`}>
 
   {#if showLocation}
-    <div class="location-page" transition:fly={{ x: -1000, duration: 500 }}>
+    <div class="location-page" transition:fly={{ x: -2000, duration: 500 }}>
       <LocationSearch on:closeLocation={() => (showLocation = false)} />
     </div>
   {/if}
@@ -70,16 +78,16 @@
     <Nav />
     <div class="container">
       <Header
-        {city}
-        country={currentWeather.country}
+        city={$currentWeather.city}
+        country={$currentWeather.country}
         on:openLocation={() => (showLocation = true)} />
       <div class="flex items-center justify-between w-10/12 mx-auto">
-        <Temperature temp={currentWeather.temp} />
+        <Temperature temp={$currentWeather.temp} />
         <WeatherDetails
-          main={currentWeather.main}
-          windSpeed={currentWeather.wind_speed}
-          humidity={currentWeather.humidity}
-          icon={currentWeather.id} />
+          main={$currentWeather.main}
+          windSpeed={$currentWeather.wind_speed}
+          humidity={$currentWeather.humidity}
+          icon={$currentWeather.id} />
       </div>
     </div>
     <WeatherDisplay />

@@ -91,7 +91,7 @@
   function lock(e) {
     x0 = unify(e).clientX;
     locked = true;
-    console.log(getTranslateValues(carousel));
+    console.log(getTranslateValues(carousel), window.innerWidth);
     const property = getComputedStyle(carousel).getPropertyValue("--i");
     selectedIndex = property === "" || property == 0 ? 2 : 1;
   }

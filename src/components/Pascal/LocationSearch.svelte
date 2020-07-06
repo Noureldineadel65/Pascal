@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher, onMount } from "svelte";
   const dispatch = createEventDispatcher();
+  import weatherAPI from "../../api.js";
   import Search from "../UI/Search.svelte";
   import selectedOptions from "../../stores/selected-options.js";
   import Filters from "../UI/Filters.svelte";
@@ -11,6 +12,7 @@
   let cities = [];
   let selectedCity = "";
   let resetFilter = false;
+  let loading = false;
   function handleSelection(e) {
     if (selected === e.detail.name) {
       selected = "Current Location";
@@ -39,7 +41,11 @@
     dispatch("closeLocation");
   }
   function applyChanges() {
-    console.log($selectedOptions);
+    loading = true;
+    weatherAPI($selectedOptions).then(e => {
+      loading = false;
+      dispatch("closeLocation");
+    });
   }
 </script>
 
@@ -68,6 +74,9 @@
   .close img {
     width: 60%;
   }
+  .loading {
+    width: 2.1rem;
+  }
 </style>
 
 <main class="location-search bg-white overflow-hidden">
@@ -88,7 +97,11 @@
         <button
           class="text-xl font-semibold rounded-md shadow p-6"
           on:click={applyChanges}>
-          Apply Changes
+          {#if loading}
+            <img src="./images/loading.svg" class="loading" />
+          {:else}
+            <span>Apply Changes</span>
+          {/if}
         </button>
       </div>
       <div class="action font-semibold text-xl relative text-white">

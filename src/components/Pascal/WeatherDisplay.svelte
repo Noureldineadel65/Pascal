@@ -8,17 +8,17 @@
   let index = 0;
   $: list = $WeatherStore.length ? $WeatherStore[index] : [];
   onMount(() => {
-    // axios
-    //   .get(
-    //     "https://api.openweathermap.org/data/2.5/forecast?q=cairo&units=metric&appid=dd91a9e6a83c49a6f37752ea71c27844"
-    //   )
-    //   .then(response => {
-    //     WeatherStore.setWeatherData(
-    //       response.data.list.map(e => {
-    //         return extractWeatherInformation(e);
-    //       })
-    //     );
-    //   });
+    axios
+      .get(
+        "https://api.openweathermap.org/data/2.5/forecast?q=cairo&units=metric&appid=dd91a9e6a83c49a6f37752ea71c27844"
+      )
+      .then(response => {
+        WeatherStore.setWeatherData(
+          response.data.list.map(e => {
+            return extractWeatherInformation(e);
+          })
+        );
+      });
   });
 </script>
 
@@ -45,7 +45,7 @@
   }
 </style>
 
-<div class="w-10/12 mx-auto">
+<div>
   <div class="weather-display py-8 w-full">
     <div class="weathers">
       <Carousel>
@@ -78,7 +78,7 @@
           {/each}
         </div>
         <div class="slide-2 flex items-center slide">
-          {#each list.slice(4, list.length - 2) as weather}
+          {#each list.slice(4, list.length) as weather}
             <div
               class="weather flex flex-col items-center justify-center no-select">
               <div class="weather-day mb-3 text-xl">
