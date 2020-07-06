@@ -62,9 +62,9 @@
   .content {
     padding: 1rem 2rem;
   }
-  .actions .action:first-of-type {
+  /* .actions .action:first-of-type {
     flex: 3;
-  }
+  } */
   .close {
     width: 4.3rem;
     height: 4.3rem;
@@ -77,12 +77,37 @@
   .loading {
     width: 2.1rem;
   }
+  .actions {
+    display: grid !important;
+    grid-template-columns: 4fr 1fr;
+    grid-template-rows: repeat(2, auto);
+    grid-row-gap: 2rem;
+  }
+  @media only screen and (min-width: 640px) {
+    .actions {
+      display: flex !important;
+    }
+  }
+  .actions > div:first-of-type {
+    grid-column: 1/-1;
+    grid-row: 1/2;
+  }
+  .actions .action:nth-of-type(2) {
+    grid-column: 1/2;
+    grid-row: 2/3;
+  }
+  .actions .action:last-of-type {
+    grid-column: 2/3;
+    grid-row: 2/3;
+    justify-self: center;
+    align-self: center;
+  }
 </style>
 
 <main class="location-search bg-white overflow-hidden">
   <div class="content mx-auto">
     <Search on:search={e => (search = e.detail)} />
-    <div class="actions flex items-center mt-5">
+    <div class="actions flex items-center mt-5 w-full">
       <div class="action w-full mr-4">
         <Filters
           {cities}
@@ -93,9 +118,10 @@
           on:resetFilter={() => (selectedCity = '')}
           {resetFilter} />
       </div>
-      <div class="action font-semibold text-xl relative mr-4">
+
+      <div class="action font-semibold text-xl relative mr-4 w-full">
         <button
-          class="text-xl font-semibold rounded-md shadow p-6"
+          class="text-xl font-semibold rounded-md shadow p-6 w-full"
           on:click={applyChanges}>
           {#if loading}
             <img src="./images/loading.svg" class="loading" />

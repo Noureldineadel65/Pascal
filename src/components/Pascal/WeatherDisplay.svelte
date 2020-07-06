@@ -3,23 +3,9 @@
   import axios from "axios";
   import Carousel from "../UI/Carousel.svelte";
   import { extractWeatherInformation, getHour } from "../../utils";
-  import { onMount } from "svelte";
   let list = [];
   let index = 0;
   $: list = $WeatherStore.length ? $WeatherStore[index] : [];
-  onMount(() => {
-    // axios
-    //   .get(
-    //     "https://api.openweathermap.org/data/2.5/forecast?q=cairo&units=metric&appid=dd91a9e6a83c49a6f37752ea71c27844"
-    //   )
-    //   .then(response => {
-    //     WeatherStore.setWeatherData(
-    //       response.data.list.map(e => {
-    //         return extractWeatherInformation(e);
-    //       })
-    //     );
-    //   });
-  });
 </script>
 
 <style>

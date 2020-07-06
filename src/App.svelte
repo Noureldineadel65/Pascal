@@ -6,6 +6,7 @@
   import Tailwind from "./Tailwind.svelte";
   import selectedOptions from "./stores/selected-options.js";
   import weatherAPI from "./api.js";
+  import Loading from "./components/UI/Loading.svelte";
   import { fly } from "svelte/transition";
   import Nav from "./components/UI/Nav.svelte";
   import LocationSearch from "./components/Pascal/LocationSearch.svelte";
@@ -18,23 +19,9 @@
   import { onMount } from "svelte";
   let city = "";
   let showLocation = false;
+  let showLoading = true;
   onMount(async () => {
-    weatherAPI($selectedOptions);
-    // await axios
-    //   .get("https://geolocation-db.com/json/")
-    //   .then(e => (city = e.data.city));
-    // await axios
-    //   .get(
-    //     `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=dd91a9e6a83c49a6f37752ea71c27844
-    // `
-    //   )
-    //   .then(response => {
-    //     currentWeather = extractWeatherInformation(response.data);
-    //     console.log(extractWeatherInformation(response.data));
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    weatherAPI($selectedOptions).then(() => (showLoading = false));
   });
 </script>
 
@@ -42,7 +29,7 @@
   .app {
     height: 100vh;
     width: 100%;
-
+    overflow-y: hidden;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -53,13 +40,16 @@
 </style>
 
 <svelte:head>
-  <script
+  <!-- <script
     src="https://kit.fontawesome.com/8027935937.js"
-    crossorigin="anonymous">
-
-  </script>
+    crossorigin="anonymous" ✂prettier:content✂="CgogIA==">{}</script> -->
   <title>Pascal | Weather App</title>
 </svelte:head>
+{#if showLoading}
+  <div class="loading-container" transition:fly={{ y: -1500, duration: 500 }}>
+    <Loading />
+  </div>
+{/if}
 <div
   class="app"
   style={`background: linear-gradient(

@@ -23,6 +23,7 @@ class weatherAPI {
 				Object.assign({}, cityRes, { city: res })
 			);
 		} else {
+			console.log(data.country, data.city);
 			try {
 				const cityRes = await this.getWeatherForCity(data.city);
 				currentWeather.setWeather(

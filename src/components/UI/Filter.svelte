@@ -26,8 +26,9 @@
   .rotate {
     transform: rotate(180deg);
   }
-  .fa-angle-down {
+  .arrow-down {
     transition: all 0.3s;
+    width: 2rem;
   }
 </style>
 
@@ -37,8 +38,8 @@
   }} />
 <div class="filter font-semibold text-xl relative" on:click|stopPropagation>
   <div
-    class="dropdown flex items-center justify-between bg-white w-fulltext-xl p-6
-    px-10 rounded-md shadow cursor-pointer"
+    class="dropdown flex items-center justify-between bg-white w-fulltext-xl
+    py-6 px-8 px-10 rounded-md shadow cursor-pointer"
     on:click={e => {
       if (e.target.classList.contains('close-filter')) {
         selected = text;
@@ -52,7 +53,11 @@
     {#if selected !== text}
       <i class="fas fa-times close-filter" />
     {:else}
-      <i class="fas fa-angle-down" class:rotate={listOn} />
+      <!-- <i class="fas fa-angle-down" class:rotate={listOn} /> -->
+      <img
+        src="./images/arrow-down.svg"
+        class:rotate={listOn}
+        class="arrow-down ml-4" />
     {/if}
 
   </div>
