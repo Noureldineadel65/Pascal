@@ -27,11 +27,11 @@
   .countries-list {
     overflow-y: scroll;
 
-    height: 50.5vh;
+    height: 58.5vh;
   }
   @media only screen and (min-width: 640px) {
     .countries-list {
-      height: 63.5vh;
+      height: 67.5vh;
     }
   }
   .countries-list::-webkit-scrollbar-track {

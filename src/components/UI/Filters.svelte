@@ -1,6 +1,7 @@
 <script>
   import Filter from "../UI/Filter.svelte";
   export let cities;
+  export let selectedCity;
   export let resetFilter = false;
 </script>
 
@@ -9,6 +10,7 @@
     <Filter
       text="Select City"
       list={cities}
+      {selectedCity}
       on:selected
       on:resetFilter
       {resetFilter} />

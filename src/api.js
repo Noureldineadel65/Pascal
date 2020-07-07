@@ -23,18 +23,34 @@ class weatherAPI {
 				Object.assign({}, cityRes, { city: res })
 			);
 		} else {
-			console.log(data.country, data.city);
 			try {
-				const cityRes = await this.getWeatherForCity(data.city);
-				currentWeather.setWeather(
-					Object.assign({}, cityRes, { city: data.city })
-				);
-				await this.getWeatherDisplay(data.city);
-				return $currentWeather;
+				if (data.city) {
+					const cityRes = await this.getWeatherForCity(data.city);
+					currentWeather.setWeather(
+						Object.assign({}, cityRes, { city: data.city })
+					);
+					await this.getWeatherDisplay(data.city);
+					return $currentWeather;
+				} else {
+					const getCapital = await this.getCapitalCity(data.country);
+
+					const cityRes = await this.getWeatherForCity(getCapital);
+					currentWeather.setWeather(
+						Object.assign({}, cityRes, { city: getCapital })
+					);
+					await this.getWeatherDisplay(getCapital);
+					return $currentWeather;
+				}
 			} catch {
 				return new Error();
 			}
 		}
+	}
+	async getCapitalCity(country) {
+		const res = await axios.get(
+			`https://restcountries.eu/rest/v2/name/${country}`
+		);
+		return res.data[0].capital;
 	}
 	async getWeatherDisplay(city) {
 		const res = await axios.get(

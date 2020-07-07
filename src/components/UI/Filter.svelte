@@ -4,6 +4,7 @@
 
   const dispatch = createEventDispatcher();
   import { fly } from "svelte/transition";
+  export let selectedCity = "";
   export let list = [];
   let listOn = false;
   export let text = "";
@@ -16,7 +17,13 @@
       listOn = false;
     }, 0);
   }
-  $: selected = list.length === 0 ? text : selected;
+  function assignSelectedCity() {
+    if (selectedCity) {
+      selected = selectedCity;
+    }
+    return selected;
+  }
+  $: selected = list.length === 0 ? text : assignSelectedCity();
 </script>
 
 <style>
@@ -26,7 +33,8 @@
   .rotate {
     transform: rotate(180deg);
   }
-  .arrow-down {
+  .arrow-down,
+  .close-filter {
     transition: all 0.3s;
     width: 2rem;
   }
@@ -51,7 +59,10 @@
     }}>
     <div class="current-selected">{selected}</div>
     {#if selected !== text}
-      <i class="fas fa-times close-filter" />
+      <img
+        src="./images/close.svg"
+        class:rotate={listOn}
+        class="close-filter ml-4" />
     {:else}
       <!-- <i class="fas fa-angle-down" class:rotate={listOn} /> -->
       <img

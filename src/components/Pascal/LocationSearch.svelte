@@ -13,6 +13,18 @@
   let selectedCity = "";
   let resetFilter = false;
   let loading = false;
+  onMount(() => {
+    if (!($selectedOptions.country === "Current Location")) {
+      cities = $countriesStore.find(e => e[0] === $selectedOptions.country)[1]
+        .cities;
+      selected = $selectedOptions.country;
+      countriesStore.moveToFront($selectedOptions.country);
+      if ($selectedOptions.city) {
+        console.log($selectedOptions.city);
+        selectedCity = $selectedOptions.city;
+      }
+    }
+  });
   function handleSelection(e) {
     if (selected === e.detail.name) {
       selected = "Current Location";
@@ -37,7 +49,7 @@
     }
   }
   function handleClose() {
-    selectedOptions.set({ country: "Current Location", city: "" });
+    selectedOptions.set({ country: selected, city: selectedCity });
     dispatch("closeLocation");
   }
   function applyChanges() {
@@ -111,6 +123,7 @@
       <div class="action w-full mr-4">
         <Filters
           {cities}
+          {selectedCity}
           on:selected={e => {
             selectedCity = e.detail;
             selectedOptions.updateCity(e.detail.trim());

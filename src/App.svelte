@@ -40,9 +40,6 @@
 </style>
 
 <svelte:head>
-  <!-- <script
-    src="https://kit.fontawesome.com/8027935937.js"
-    crossorigin="anonymous" ✂prettier:content✂="CgogIA==">{}</script> -->
   <title>Pascal | Weather App</title>
 </svelte:head>
 {#if showLoading}
@@ -64,6 +61,7 @@
       <LocationSearch on:closeLocation={() => (showLocation = false)} />
     </div>
   {/if}
+
   <main>
     <Nav />
     <div class="container">
