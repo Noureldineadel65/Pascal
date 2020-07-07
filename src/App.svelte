@@ -1,7 +1,6 @@
 <script>
   import axios from "axios";
   import currentWeather from "./stores/current-weather.js";
-
   import { extractWeatherInformation } from "./utils";
   import Tailwind from "./Tailwind.svelte";
   import selectedOptions from "./stores/selected-options.js";
@@ -15,8 +14,9 @@
   import Temperature from "./components/Pascal/Temperature.svelte";
   import WeatherDetails from "./components/Pascal/WeatherDetails.svelte";
   import WeatherDisplay from "./components/Pascal/WeatherDisplay.svelte";
-
   import { onMount } from "svelte";
+
+  $: console.log($currentWeather);
   let city = "";
   let showLocation = false;
   let showLoading = true;
@@ -32,10 +32,13 @@
     overflow-y: hidden;
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center;
+    background-position: 0 0;
   }
   button:focus global {
     outline: none;
+  }
+  .loading-container {
+    position: fixed;
   }
 </style>
 
