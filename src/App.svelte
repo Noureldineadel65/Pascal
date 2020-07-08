@@ -25,7 +25,7 @@
   .app {
     height: 100vh;
     width: 100%;
-    overflow-y: hidden;
+    overflow: hidden;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

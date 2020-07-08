@@ -1,6 +1,8 @@
 import { compareStrings, extractWeatherInformation } from "./utils";
 import currentWeather from "./stores/current-weather.js";
+import cities from "./cities.json";
 import WeatherStore from "./stores/weather-store.js";
+import countriesStore from "./stores/countries-store.js";
 import axios from "axios";
 class weatherAPI {
 	constructor() {
@@ -11,7 +13,10 @@ class weatherAPI {
 			const res = await axios.get("https://geolocation-db.com/json/");
 			return res.data.city;
 		} catch {
-			return new Error("Couldn't get current location");
+			const res = await this.getCapitalCity(
+				cities[Math.floor(Math.random() * cities.length)].country
+			);
+			return res;
 		}
 	}
 	async init(data) {
