@@ -17,7 +17,7 @@
 <style>
   input {
     font-size: 1.5rem;
-    border: 5px solid rgba(104, 104, 104, 0.438);
+    border: 2px solid rgba(104, 104, 104, 0.438);
     width: 100%;
     padding: 1.3rem 2.3rem;
     border-radius: 30px;

@@ -32,7 +32,7 @@
       selectedOptions.set({ country: "Current Location", city: "" });
     } else {
       cities = [];
-
+      selectedCity = "";
       setTimeout(() => {
         selected = e.detail.name;
         cities = e.detail.cities;
@@ -64,11 +64,11 @@
 <style>
   .location-search {
     background-color: #fff;
-    height: 90vh;
+    height: 100vh;
 
     width: 100%;
     position: absolute;
-    margin-top: 8rem;
+    margin-top: 7vh;
     z-index: 10;
   }
   .content {

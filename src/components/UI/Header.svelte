@@ -31,7 +31,4 @@
     <span class="font-bold uppercase country-capital">{city}</span>
     <span class="uppercase country-name">{country}</span>
   </div>
-  <a href="#" class="days">
-    <img src="images/calendar.svg" />
-  </a>
 </header>

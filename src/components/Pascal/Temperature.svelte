@@ -23,9 +23,9 @@
 
 <style>
   h1 {
-    font-size: 8.1rem;
+    font-size: 8.6rem;
     font-family: "MuseoModerno", cursive;
   }
 </style>
 
-<h1 class="text-white mr-4" on:click={changeTemp}>{tempratureDisplay}</h1>
+<h1 class="text-white" on:click={changeTemp}>{tempratureDisplay}</h1>

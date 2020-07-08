@@ -1,22 +1,18 @@
 <script>
-  import axios from "axios";
+  import { onMount } from "svelte";
+  import { fly } from "svelte/transition";
   import currentWeather from "./stores/current-weather.js";
-  import { extractWeatherInformation } from "./utils";
   import Tailwind from "./Tailwind.svelte";
   import selectedOptions from "./stores/selected-options.js";
   import weatherAPI from "./api.js";
   import Loading from "./components/UI/Loading.svelte";
-  import { fly } from "svelte/transition";
   import Nav from "./components/UI/Nav.svelte";
   import LocationSearch from "./components/Pascal/LocationSearch.svelte";
-  import WeatherStore from "./stores/weather-store.js";
   import Header from "./components/UI/Header.svelte";
   import Temperature from "./components/Pascal/Temperature.svelte";
   import WeatherDetails from "./components/Pascal/WeatherDetails.svelte";
   import WeatherDisplay from "./components/Pascal/WeatherDisplay.svelte";
-  import { onMount } from "svelte";
 
-  $: console.log($currentWeather);
   let city = "";
   let showLocation = false;
   let showLoading = true;
@@ -32,13 +28,10 @@
     overflow-y: hidden;
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: 0 0;
+    background-position: center;
   }
   button:focus global {
     outline: none;
-  }
-  .loading-container {
-    position: fixed;
   }
 </style>
 
@@ -57,14 +50,13 @@
         rgba(0, 0, 0, 0.719),
         rgba(0, 0, 0, 0.3)
       ),
-      url(https://source.unsplash.com/1600x900/?${city});`}>
+      url(https://source.unsplash.com/1600x900/?${$currentWeather.main});`}>
 
   {#if showLocation}
     <div class="location-page" transition:fly={{ x: -2000, duration: 500 }}>
       <LocationSearch on:closeLocation={() => (showLocation = false)} />
     </div>
   {/if}
-
   <main>
     <Nav />
     <div class="container">
@@ -72,13 +64,14 @@
         city={$currentWeather.city}
         country={$currentWeather.country}
         on:openLocation={() => (showLocation = true)} />
-      <div class="flex items-center justify-between w-10/12 mx-auto">
+      <div class="flex justify-between w-10/12 mx-auto flex-col">
         <Temperature temp={$currentWeather.temp} />
         <WeatherDetails
           main={$currentWeather.main}
           windSpeed={$currentWeather.wind_speed}
           humidity={$currentWeather.humidity}
-          icon={$currentWeather.id} />
+          icon={$currentWeather.id}
+          day={$currentWeather.day} />
       </div>
     </div>
     <WeatherDisplay />

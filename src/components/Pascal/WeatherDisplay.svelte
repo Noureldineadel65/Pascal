@@ -14,7 +14,7 @@
   }
   .weather-display {
     height: 16.5rem;
-    position: absolute;
+    position: fixed;
     bottom: 0;
   }
   .weather {
