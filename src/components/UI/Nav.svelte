@@ -1,5 +1,5 @@
 <script>
-  let openedNav = true;
+  let openedNav = false;
   function openNav() {
     if (!openedNav) {
       openedNav = true;
@@ -76,7 +76,12 @@
         <p>Source Code:</p>
         <ul class="square">
           <li>
-            <a href="#" class="flex items-center" target="_blank">GitHub</a>
+            <a
+              href="https://github.com/Noureldineadel65/Pascal"
+              class="flex items-center"
+              target="_blank">
+              GitHub
+            </a>
           </li>
 
         </ul>
