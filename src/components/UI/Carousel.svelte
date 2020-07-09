@@ -2,6 +2,11 @@
   import { onMount } from "svelte";
   let carousel;
   let selectedIndex = 1;
+  let innerWidth = 0;
+  $: transition = innerWidth >= 768 ? "transform .3s" : "none";
+  onMount(() => {
+    innerWidth = window.innerWidth;
+  });
   const NF = 30,
     TFN = {
       linear: function(k) {
@@ -101,33 +106,36 @@
 
   function drag(e) {
     e.preventDefault();
+    if (window.innerWidth <= 768) {
+      if (locked) {
+        let dx = unify(e).clientX - x0,
+          f = +(dx / w).toFixed(2);
 
-    if (locked) {
-      let dx = unify(e).clientX - x0,
-        f = +(dx / w).toFixed(2);
-
-      carousel.style.setProperty("--i", i - f);
+        carousel.style.setProperty("--i", i - f);
+      }
     }
   }
 
   function move(e) {
-    if (locked) {
-      let dx = unify(e).clientX - x0,
-        s = Math.sign(dx),
-        f = +((s * dx) / w).toFixed(2);
+    if (window.innerWidth <= 768) {
+      if (locked) {
+        let dx = unify(e).clientX - x0,
+          s = Math.sign(dx),
+          f = +((s * dx) / w).toFixed(2);
 
-      ini = i - s * f;
+        ini = i - s * f;
 
-      if ((i > 0 || s < 0) && (i < 2 - 1 || s > 0) && f > 0.2) {
-        i -= s;
-        f = 1 - f;
+        if ((i > 0 || s < 0) && (i < 2 - 1 || s > 0) && f > 0.2) {
+          i -= s;
+          f = 1 - f;
+        }
+
+        fin = i;
+        anf = Math.round(f * NF);
+        ani();
+        x0 = null;
+        locked = false;
       }
-
-      fin = i;
-      anf = Math.round(f * NF);
-      ani();
-      x0 = null;
-      locked = false;
     }
   }
 
@@ -136,15 +144,9 @@
   }
 
   size();
-  onMount(() => {});
 </script>
 
 <style>
-  .carousel :global(.weather) {
-    /* box-shadow: 10px 10px 74px -11px rgba(0, 0, 0, 0.75); */
-    /* width: 3rem; */
-  }
-
   .carousel {
     --n: 2;
     display: flex;
@@ -198,7 +200,7 @@
     margin: 0 auto;
     overflow: hidden;
   }
-  @media only screen and (min-width: 640px) {
+  @media only screen and (min-width: 768px) {
     .carousel-container {
       width: 70%;
       margin-left: 10%;
@@ -206,13 +208,17 @@
     .dots {
       display: none;
     }
+    div.desktop-switches {
+      display: flex;
+    }
   }
   .desktop-switches {
     position: absolute;
     top: 50%;
-    right: 0;
+    right: -2rem;
     transform: translateY(-50%);
     margin-right: 10%;
+    display: none;
   }
   .left-arrow,
   .right-arrow {
@@ -232,6 +238,7 @@
   }
 </style>
 
+<svelte:window bind:innerWidth />
 <div class="carousel-container">
   <div
     class="carousel flex items-center overflow-x-hidden no-select"
@@ -241,7 +248,8 @@
     on:mousemove={drag}
     on:touchmove={drag}
     on:mouseup={move}
-    on:touchend={move}>
+    on:touchend={move}
+    style="transition: {transition}">
     <slot />
 
   </div>
@@ -259,10 +267,18 @@
     </div>
   </div>
   <div class="desktop-switches flex items-center">
-    <div class="left-arrow mr-4 flex items-center justify-center">
+    <div
+      class="left-arrow mr-4 flex items-center justify-center"
+      on:click={() => {
+        carousel.style.setProperty('--i', 0);
+      }}>
       <img src="./images/left-arrow.svg" />
     </div>
-    <div class="right-arrow flex items-center justify-center">
+    <div
+      class="right-arrow flex items-center justify-center"
+      on:click={() => {
+        carousel.style.setProperty('--i', 1);
+      }}>
       <img src="./images/right-arrow.svg" />
     </div>
   </div>

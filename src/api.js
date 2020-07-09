@@ -11,13 +11,17 @@ class weatherAPI {
 	async getCurrentCity() {
 		try {
 			const res = await axios.get("https://geolocation-db.com/json/");
-			return res.data.city;
+			console.log(res.data.city);
+			return res.data.city ? res.data.city : this.getRandomCity();
 		} catch {
-			const res = await this.getCapitalCity(
-				cities[Math.floor(Math.random() * cities.length)].country
-			);
-			return res;
+			return await this.getRandomCity();
 		}
+	}
+	async getRandomCity() {
+		const res = await this.getCapitalCity(
+			cities[Math.floor(Math.random() * cities.length)].country
+		);
+		return res;
 	}
 	async init(data) {
 		if (compareStrings(data.country, "Current Location")) {
@@ -30,7 +34,10 @@ class weatherAPI {
 		} else {
 			try {
 				if (data.city) {
-					const cityRes = await this.getWeatherForCity(data.city);
+					const cityRes = await this.getWeatherForCity(
+						data.city,
+						data.country
+					);
 					currentWeather.setWeather(
 						Object.assign({}, cityRes, { city: data.city })
 					);
@@ -39,7 +46,10 @@ class weatherAPI {
 				} else {
 					const getCapital = await this.getCapitalCity(data.country);
 
-					const cityRes = await this.getWeatherForCity(getCapital);
+					const cityRes = await this.getWeatherForCity(
+						getCapital,
+						data.country
+					);
 					currentWeather.setWeather(
 						Object.assign({}, cityRes, { city: getCapital })
 					);
@@ -67,7 +77,7 @@ class weatherAPI {
 			})
 		);
 	}
-	async getWeatherForCity(city) {
+	async getWeatherForCity(city, country = "") {
 		try {
 			const res = await axios.get(
 				`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${this.apiKey}
@@ -76,7 +86,13 @@ class weatherAPI {
 			const data = extractWeatherInformation(res.data);
 			return data;
 		} catch {
-			return new Error(`Couldn't get weather for ${city}`);
+			const capital = await this.getCapitalCity(country);
+			const res = await axios.get(
+				`https://api.openweathermap.org/data/2.5/weather?q=${capital}&units=metric&appid=${this.apiKey}
+		`
+			);
+			const data = extractWeatherInformation(res.data);
+			return data;
 		}
 	}
 }

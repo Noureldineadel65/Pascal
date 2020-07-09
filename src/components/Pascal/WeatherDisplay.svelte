@@ -33,7 +33,7 @@
   }
   @media only screen and (min-width: 640px) {
     .weather-display {
-      height: 20.5rem;
+      height: 22.5rem;
     }
     .weather {
       width: 14rem;
@@ -56,7 +56,7 @@
   <div class="weather-display py-8 w-full">
     <div class="weathers">
       <Carousel>
-        <div class="slide-1 flex items-center slide">
+        <div class="slide-1 flex items-center slide justify-between">
           {#each list.slice(0, 4) as weather}
             <div
               class="weather px-4 py-2 flex flex-col justify-between
@@ -86,7 +86,7 @@
             </div>
           {/each}
         </div>
-        <div class="slide-2 flex items-center slide">
+        <div class="slide-2 flex items-center slide justify-between">
           {#each list.slice(4, list.length) as weather}
             <div
               class="weather flex flex-col items-center justify-center no-select
