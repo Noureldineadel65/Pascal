@@ -90,7 +90,7 @@
         <p>Built with:</p>
         <ul class="square">
           <li>
-            <a href="https://svelte.dev/" target="_blank">Svelte</a>
+            <a href="https://svelte.dev/" target="_blank">SvelteJS</a>
           </li>
           <li>
             <a href="https://tailwindcss.com/" target="_blank">TailwindCSS</a>
