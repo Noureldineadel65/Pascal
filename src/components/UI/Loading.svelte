@@ -10,7 +10,7 @@
     }
     var txt_rep = "",
       l = 0;
-    while (l < 100) {
+    while (l < 800) {
       txt_rep += txt_now;
       l++;
     }

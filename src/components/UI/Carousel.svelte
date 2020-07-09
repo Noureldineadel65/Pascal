@@ -26,7 +26,12 @@
     fin,
     rID = null,
     anf;
-
+  function switchedSelectedIndex() {
+    const property = getComputedStyle(carousel).getPropertyValue("--i");
+    if (!isNaN(property)) {
+      selectedIndex = property == "" || property == 0 ? 1 : 2;
+    }
+  }
   function stopAni() {
     cancelAnimationFrame(rID);
     rID = null;
@@ -39,6 +44,7 @@
     );
 
     if (cf === anf) {
+      switchedSelectedIndex();
       stopAni();
       return;
     }
@@ -91,9 +97,6 @@
   function lock(e) {
     x0 = unify(e).clientX;
     locked = true;
-    console.log(getTranslateValues(carousel), window.innerWidth);
-    const property = getComputedStyle(carousel).getPropertyValue("--i");
-    selectedIndex = property === "" || property == 0 ? 2 : 1;
   }
 
   function drag(e) {
@@ -146,7 +149,7 @@
     --n: 2;
     display: flex;
     align-items: center;
-    overflow-y: hidden;
+    overflow: hidden;
     width: 100%;
     width: calc(var(--n) * 100%);
     transform: translate(calc(var(--i, 0) / var(--n) * -100%));
@@ -189,30 +192,78 @@
   .dot .activeDot {
     background: rgb(255, 255, 255);
   }
+
+  .carousel-container {
+    width: 90%;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  @media only screen and (min-width: 640px) {
+    .carousel-container {
+      width: 70%;
+      margin-left: 10%;
+    }
+    .dots {
+      display: none;
+    }
+  }
+  .desktop-switches {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    margin-right: 10%;
+  }
+  .left-arrow,
+  .right-arrow {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.397);
+    cursor: pointer;
+  }
+  .left-arrow:hover,
+  .right-arrow:hover {
+    background-color: rgba(255, 255, 255, 0.555);
+  }
+  .left-arrow img,
+  .right-arrow img {
+    width: 3rem;
+  }
 </style>
 
-<div
-  class="carousel flex items-center overflow-x-hidden no-select"
-  bind:this={carousel}
-  on:mousedown={lock}
-  on:touchstart={lock}
-  on:mousemove={drag}
-  on:touchmove={drag}
-  on:mouseup={move}
-  on:touchend={move}>
-  <slot />
+<div class="carousel-container">
+  <div
+    class="carousel flex items-center overflow-x-hidden no-select"
+    bind:this={carousel}
+    on:mousedown={lock}
+    on:touchstart={lock}
+    on:mousemove={drag}
+    on:touchmove={drag}
+    on:mouseup={move}
+    on:touchend={move}>
+    <slot />
 
-</div>
-<div class="dots">
-  <div class="dot mr-2">
-    <span
-      class:activeDot={selectedIndex === 1}
-      on:click={e => {
-        carousel.style.setProperty('--1', 0);
-        move(e);
-      }} />
   </div>
-  <div class="dot">
-    <span class:activeDot={selectedIndex === 2} on:click={e => {}} />
+  <div class="dots sm:hidden">
+    <div class="dot mr-2">
+      <span
+        class:activeDot={selectedIndex === 1}
+        on:click={e => {
+          carousel.style.setProperty('--1', 0);
+          move(e);
+        }} />
+    </div>
+    <div class="dot">
+      <span class:activeDot={selectedIndex === 2} on:click={e => {}} />
+    </div>
+  </div>
+  <div class="desktop-switches flex items-center">
+    <div class="left-arrow mr-4 flex items-center justify-center">
+      <img src="./images/left-arrow.svg" />
+    </div>
+    <div class="right-arrow flex items-center justify-center">
+      <img src="./images/right-arrow.svg" />
+    </div>
   </div>
 </div>

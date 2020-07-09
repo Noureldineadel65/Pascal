@@ -15,11 +15,10 @@
   .weather-display {
     height: 16.5rem;
     position: fixed;
+
     bottom: 0;
   }
-  .weather {
-    box-shadow: 10px 10px 66px -29px rgba(0, 0, 0, 0.75);
-  }
+
   .temperatures {
   }
   span {
@@ -28,6 +27,28 @@
   .weathers {
     padding: 1.5rem 0;
     position: relative;
+  }
+  .tag {
+    display: none;
+  }
+  @media only screen and (min-width: 640px) {
+    .weather-display {
+      height: 20.5rem;
+    }
+    .weather {
+      width: 14rem;
+      height: 14rem;
+    }
+    .actual {
+      font-size: 4.4rem;
+      font-weight: bolder;
+    }
+    .feels-like {
+      font-size: 1.4rem;
+    }
+    .tag {
+      display: inline-block;
+    }
   }
 </style>
 
@@ -38,8 +59,8 @@
         <div class="slide-1 flex items-center slide">
           {#each list.slice(0, 4) as weather}
             <div
-              class="weather px-4 py-2 flex flex-col justify-center items-center
-              no-select">
+              class="weather px-4 py-2 flex flex-col justify-between
+              items-center sm:items-start no-select">
               <div class="weather-day mb-3 text-xl">
                 <span class="font-bold">{weather.time.split(':')[0]}</span>
                 {weather.time
@@ -49,15 +70,17 @@
                     weather.time.split(':')[1].length
                   )}
               </div>
-              <div class="weather-icon mb-2">
+              <div class="weather-icon mb-2 sm:hidden">
                 <i class="owf owf-{weather.id} owf-4x" />
               </div>
-              <div class="temperatures text-lg flex items-center center">
-                <div class="actual mr-2 font-bold">
-                  <span>{Math.floor(weather.temp)}°</span>
+              <div
+                class="temperatures text-lg flex items-center center sm:flex-col">
+                <div class="actual mr-2 font-bold sm:mr-0">
+                  <span>{Math.floor(weather.temp)}°C</span>
                 </div>
-                <div class="feels-link">
-                  <span>{Math.floor(weather.feels_like)}°</span>
+                <div class="feels-like">
+                  <span class="tag">Feels like</span>
+                  <span>{Math.floor(weather.feels_like)}°C</span>
                 </div>
               </div>
             </div>
@@ -66,7 +89,8 @@
         <div class="slide-2 flex items-center slide">
           {#each list.slice(4, list.length) as weather}
             <div
-              class="weather flex flex-col items-center justify-center no-select">
+              class="weather flex flex-col items-center justify-center no-select
+              sm:items-start">
               <div class="weather-day mb-3 text-xl">
                 <span class="font-bold">{weather.time.split(':')[0]}</span>
                 {weather.time
@@ -76,15 +100,18 @@
                     weather.time.split(':')[1].length
                   )}
               </div>
-              <div class="weather-icon mb-2">
+              <div class="weather-icon mb-2 sm:hidden">
                 <i class="owf owf-{weather.id} owf-4x" />
               </div>
-              <div class="temperatures text-lg flex items-center center">
-                <div class="actual mr-2 font-bold">
-                  <span>{Math.floor(weather.temp)}°</span>
+              <div
+                class="temperatures text-lg flex items-center center sm:flex-col
+                sm:items-center">
+                <div class="actual mr-2 font-bold sm:mr-0">
+                  <span>{Math.floor(weather.temp)}°C</span>
                 </div>
-                <div class="feels-link">
-                  <span>{Math.floor(weather.feels_like)}°</span>
+                <div class="feels-like">
+                  <span class="tag">Feels like</span>
+                  <span>{Math.floor(weather.feels_like)}°C</span>
                 </div>
               </div>
             </div>

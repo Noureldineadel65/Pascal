@@ -48,9 +48,9 @@
   style={`background: linear-gradient(
         to bottom,
         rgba(0, 0, 0, 0.719),
-        rgba(0, 0, 0, 0.3)
+        rgba(0, 0, 0, 0.5)
       ),
-      url(https://source.unsplash.com/1600x900/?${$currentWeather.main});`}>
+      url(https://source.unsplash.com/1600x900/?${$currentWeather.main})`}>
 
   {#if showLocation}
     <div class="location-page" transition:fly={{ x: -2000, duration: 500 }}>
@@ -64,7 +64,7 @@
         city={$currentWeather.city}
         country={$currentWeather.country}
         on:openLocation={() => (showLocation = true)} />
-      <div class="flex justify-between w-10/12 mx-auto flex-col">
+      <div class="flex justify-between w-10/12 mx-auto flex-col sm:flex-row">
         <Temperature temp={$currentWeather.temp} />
         <WeatherDetails
           main={$currentWeather.main}

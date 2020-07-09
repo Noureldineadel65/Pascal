@@ -20,7 +20,7 @@
     border: 2px solid rgba(104, 104, 104, 0.438);
     width: 100%;
     padding: 1.3rem 2.3rem;
-    border-radius: 30px;
+    /* border-radius: 30px; */
     padding-right: 6rem;
   }
   .search-icon {

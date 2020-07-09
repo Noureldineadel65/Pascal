@@ -65,18 +65,15 @@
   .location-search {
     background-color: #fff;
     height: 100vh;
-
+    overflow: hidden;
     width: 100%;
-    position: absolute;
+    position: fixed;
     margin-top: 7vh;
     z-index: 10;
   }
   .content {
     padding: 1rem 2rem;
   }
-  /* .actions .action:first-of-type {
-    flex: 3;
-  } */
   .close {
     width: 4.3rem;
     height: 4.3rem;
