@@ -5,14 +5,14 @@
 	<meta charset='utf-8'>
 	<meta name='viewport' content='width=device-width,initial-scale=1'>
 
-	<title>Svelte app</title>
+	<title>Pascal | Weather App</title>
 
 	<link rel='icon' type='image/png' href='/favicon.png'>
-	<link rel='stylesheet' href='/global.css'>
-	<link rel='stylesheet' href='/build/bundle.css'>
-	<link rel="stylesheet" href="index.css" />
-	<link href="./owfont-master/css/owfont-regular.min.css" rel="stylesheet" type="text/css">
-	<script defer src='/build/bundle.js'></script>
+	<link rel="preload" as="style" href='/global.css'>
+	<link rel="preload" as="style" href='/build/bundle.css'>
+	<link rel="preload" as="style" href="index.css" />
+	<link rel="preload" href="./owfont-master/css/owfont-regular.min.css" as="style" type="text/css">
+	<script rel="preload" defer src='/build/bundle.js' as="script"></script>
 </head>
 
 <body>

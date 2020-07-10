@@ -11,7 +11,6 @@ class weatherAPI {
 	async getCurrentCity() {
 		try {
 			const res = await axios.get("https://geolocation-db.com/json/");
-			console.log(res.data.city);
 			return res.data.city ? res.data.city : this.getRandomCity();
 		} catch {
 			return await this.getRandomCity();
